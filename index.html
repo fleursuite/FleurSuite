@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FleurSuite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════
+       DESIGN TOKENS — extracted from FleurNotes
+       ══════════════════════════════════════════ */
+    :root {
+      --bg-window:   #edecea;
+      --bg-sidebar:  #f2f1ef;
+      --bg-surface:  #ffffff;
+      --bg-toolbar:  #f0efee;
+      --bg-input:    #e8e7e4;
+      --bg-hover:    #e8e7e5;
+
+      --accent:      #b5a898;
+      --accent-text: #ffffff;
+      --accent-soft: #f0ebe6;
+      --accent-mid:  #ccc0b5;
+
+      --text-strong:   #1e1d1c;
+      --text-body:     #3a3836;
+      --text-secondary:#6e6a66;
+      --text-muted:    #a09890;
+
+      --border:     rgba(0,0,0,0.07);
+      --border-md:  rgba(0,0,0,0.11);
+
+      --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+      --shadow-md: 0 6px 24px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.05);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.11), 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-window: 0 28px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.10);
+
+      --r-xs:  6px;
+      --r-sm:  10px;
+      --r-md:  14px;
+      --r-lg:  20px;
+      --r-xl:  28px;
+      --r-pill:9999px;
+
+      --font-ui:     'Segoe UI','DM Sans', system-ui, sans-serif;
+      --font-script: 'Segoe Script','Caveat', cursive;
+
+      --spring: cubic-bezier(0.34, 1.3, 0.64, 1);
+      --smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    [data-theme="dark"] {
+      --bg-window:   #1c1b1a;
+      --bg-sidebar:  #242322;
+      --bg-surface:  #2d2c2a;
+      --bg-toolbar:  #222120;
+      --bg-input:    #1a1918;
+      --bg-hover:    #333230;
+
+      --accent:      #b5a898;
+      --accent-soft: #2e2926;
+      --accent-mid:  #4a4440;
+
+      --text-strong:   #f0edea;
+      --text-body:     #d4cfc9;
+      --text-secondary:#968e88;
+      --text-muted:    #5e5a56;
+
+      --border:     rgba(255,255,255,0.06);
+      --border-md:  rgba(255,255,255,0.10);
+
+      --shadow-xs: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04);
+      --shadow-md: 0 6px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.35);
+      --shadow-window: 0 28px 80px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: var(--font-ui);
+      font-size: 15px;
+      background: var(--bg-window);
+      color: var(--text-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.35s var(--smooth), color 0.35s var(--smooth);
+    }
+
+    /* ── TITLEBAR ───────────────────────────── */
+    .titlebar {
+      position: fixed;
+      top: 0; left: 0; right: 0; z-index: 200;
+      height: 52px;
+      background: var(--bg-toolbar);
+      border-bottom: 1px solid var(--border-md);
+      display: flex; align-items: center;
+      padding: 0 16px; gap: 10px;
+      box-shadow: var(--shadow-xs);
+      transition: background 0.35s, border-color 0.35s;
+    }
+
+    .titlebar-center {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: baseline; gap: 1px; user-select: none;
+    }
+    .wm-script { font-family: 'Segoe Script',var(--font-script); font-size: 1.35rem; font-weight: 600; color: var(--text-strong); line-height: 1; }
+    .wm-sans   { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif,var(--font-ui); font-size: 1.05rem; font-weight: 500; color: var(--text-strong); line-height: 1; }
+
+    .titlebar-right { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+
+    .icon-btn {
+      height: 30px; min-width: 30px;
+      border-radius: var(--r-sm);
+      border: none; background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 8px;
+      font-family: var(--font-ui); font-size: 0.8rem; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, transform 0.2s var(--spring);
+    }
+    .icon-btn:hover { background: var(--bg-hover); color: var(--text-strong); transform: scale(1.06); }
+
+    .tb-sep { width: 1px; height: 16px; background: var(--border-md); margin: 0 2px; }
+
+    /* ── MAIN ───────────────────────────────── */
+    main { padding-top: 52px; }
+
+    /* ── HERO ───────────────────────────────── */
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 64px 24px 80px; gap: 52px;
+    }
+
+    .hero-text {
+      text-align: center; max-width: 540px;
+      animation: fadeUp 0.7s 0.1s var(--smooth) both;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 14px;
+    }
+
+    .hero-heading {
+      display: flex; align-items: baseline; justify-content: center; gap: 4px;
+      margin-bottom: 14px;
+    }
+    .hero-heading .hs { font-family: var(--font-script); font-size: clamp(2.8rem,7vw,4rem); font-weight: 700; color: var(--text-strong); line-height: 1; }
+    .hero-heading .hu { font-family: var(--font-ui); font-size: clamp(2rem,5vw,3rem); font-weight: 400; color: var(--text-secondary); line-height: 1; }
+
+    .hero-sub {
+      font-size: 0.95rem; color: var(--text-secondary); line-height: 1.75;
+      font-weight: 300; max-width: 400px; margin: 0 auto 26px;
+    }
+
+    .hero-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      border-radius: var(--r-pill); padding: 10px 22px;
+      font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500;
+      cursor: pointer; text-decoration: none; border: 1px solid transparent;
+      transition: transform 0.25s var(--spring), box-shadow 0.25s var(--smooth), background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px) scale(1.03); }
+
+    .btn-accent {
+      background: var(--accent); color: var(--accent-text); border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(181,168,152,0.38);
+    }
+    .btn-accent:hover { box-shadow: 0 8px 28px rgba(181,168,152,0.5); }
+
+    .btn-ghost {
+      background: var(--bg-surface); color: var(--text-secondary);
+      border-color: var(--border-md); box-shadow: var(--shadow-xs);
+    }
+    .btn-ghost:hover { color: var(--text-strong); border-color: var(--accent-mid); box-shadow: var(--shadow-sm); }
+
+    /* ── APP WINDOW MOCKUP ──────────────────── */
+    .app-window {
+      width: 100%; max-width: 860px;
+      background: var(--bg-window);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-window);
+      border: 1px solid var(--border-md);
+      overflow: hidden;
+      animation: fadeUp 0.8s 0.3s var(--smooth) both;
+      transition: transform 0.4s var(--smooth), box-shadow 0.4s;
+    }
+    .app-window:hover {
+      transform: translateY(-4px) scale(1.006);
+      box-shadow: 0 36px 96px rgba(0,0,0,0.16), 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    .win-titlebar {
+      position: relative; height: 48px;
+      background: var(--bg-toolbar);
+      display: flex; align-items: center; padding: 0 14px;
+      border-bottom: 1px solid var(--border); gap: 10px;
+    }
+    .win-title {
+      position: absolute; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: baseline; gap: 1px; pointer-events: none;
+    }
+    .win-icons { margin-left: auto; display: flex; gap: 10px; color: var(--text-muted); }
+    .win-icon  { width: 17px; height: 17px; opacity: 0.55; }
+
+    .win-body { display: flex; height: 400px; }
+
+    /* Sidebar */
+    .win-sidebar {
+      width: 215px; flex-shrink: 0;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      padding: 12px 10px; gap: 7px;
+    }
+    .win-search {
+      height: 30px; background: var(--bg-input);
+      border-radius: var(--r-sm); border: none;
+      display: flex; align-items: center; padding: 0 10px; gap: 6px;
+      color: var(--text-muted); font-size: 0.77rem;
+    }
+    .win-folder-row {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 0.77rem; color: var(--text-secondary); padding: 3px 4px;
+    }
+    .win-note-card {
+      background: var(--bg-surface); border-radius: var(--r-sm);
+      padding: 10px 11px; cursor: default;
+    }
+    .win-note-card.active { background: var(--accent); }
+    .win-note-card.active .wc-title   { color: #fff; }
+    .win-note-card.active .wc-preview,
+    .win-note-card.active .wc-date    { color: rgba(255,255,255,0.72); }
+    .wc-emoji   { font-size: 0.95rem; margin-bottom: 2px; }
+    .wc-title   { font-size: 0.8rem; font-weight: 600; color: var(--text-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wc-preview { font-size: 0.7rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wc-date    { font-size: 0.66rem; color: var(--text-muted); margin-top: 2px; }
+    .win-sb-footer { margin-top: auto; display: flex; gap: 12px; padding: 4px; color: var(--text-muted); }
+
+    /* Editor */
+    .win-editor {
+      flex: 1; background: var(--bg-surface);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .win-ed-header {
+      padding: 14px 22px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .win-note-title { font-size: 1.3rem; font-weight: 700; color: var(--text-strong); }
+    .win-toolbar {
+      margin: 9px 14px;
+      background: var(--bg-toolbar);
+      border-radius: var(--r-sm);
+      padding: 5px 10px;
+      display: flex; align-items: center; gap: 3px;
+      border: 1px solid var(--border);
+    }
+    .tb-i  { padding: 3px 5px; font-size: 0.74rem; font-weight: 600; color: var(--text-secondary); border-radius: var(--r-xs); }
+    .tb-i.on { background: var(--bg-surface); color: var(--text-strong); box-shadow: var(--shadow-xs); }
+    .tb-sep2 { width: 1px; height: 13px; background: var(--border-md); margin: 0 2px; }
+    .win-content { flex: 1; padding: 10px 22px; overflow: hidden; }
+    .win-line { font-size: 0.8rem; color: var(--text-body); line-height: 1.65; margin-bottom: 9px; }
+    .win-line b { color: var(--text-strong); }
+    .win-ed-footer {
+      padding: 6px 22px; border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+      font-size: 0.67rem; color: var(--text-muted);
+    }
+
+    /* ── SECTION SHARED ─────────────────────── */
+    .section { max-width: 960px; margin: 0 auto; padding: 72px 24px; }
+
+    .section-eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .section-heading {
+      display: flex; align-items: baseline; gap: 4px;
+      font-size: clamp(1.6rem,4vw,2.2rem); margin-bottom: 8px;
+    }
+    .sh-s { font-family: 'Segoue Script', var(--font-script); font-weight: 700; color: var(--text-strong); }
+    .sh-u { font-family: 'Segoue UI'var(--font-ui); font-weight: 400; color: var(--text-secondary); }
+    .section-desc { font-size: 0.875rem; color: var(--text-secondary); line-height: 1.7; max-width: 460px; font-weight: 300; }
+
+    /* ── DIVIDER ────────────────────────────── */
+    .divider {
+      display: flex; align-items: center; gap: 14px;
+      max-width: 960px; margin: 0 auto; padding: 0 24px;
+      color: var(--text-muted);
+    }
+    .divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border-md); }
+    .divider span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+    /* ── APPS GRID ──────────────────────────── */
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(265px, 1fr)); gap: 14px; margin-top: 32px; }
+
+    .app-card {
+      background: var(--bg-surface); border: 1px solid var(--border-md);
+      border-radius: var(--r-lg); padding: 22px;
+      display: flex; flex-direction: column; gap: 13px;
+      box-shadow: var(--shadow-sm);
+      position: relative; overflow: hidden;
+      transition: transform 0.28s var(--spring), box-shadow 0.28s var(--smooth), border-color 0.2s;
+    }
+    .app-card:hover { transform: translateY(-5px) scale(1.01); box-shadow: var(--shadow-lg); border-color: var(--accent-mid); }
+    .app-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0; transition:opacity 0.25s; }
+    .app-card:hover::after { opacity:1; }
+
+    .app-icon {
+      width: 42px; height: 42px; border-radius: var(--r-md);
+      background: var(--accent-soft); border: 1px solid var(--border-md);
+      display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+      transition: transform 0.3s var(--spring);
+    }
+    .app-card:hover .app-icon { transform: rotate(-5deg) scale(1.1); }
+
+    .app-name { display: flex; align-items: baseline; gap: 2px; }
+    .an-s { font-family: var(--font-script); font-size: 1.35rem; font-weight: 700; color: var(--text-strong); line-height: 1; }
+    .an-u { font-family: var(--font-ui); font-size: 1rem; font-weight: 400; color: var(--text-secondary); line-height: 1; }
+
+    .app-desc { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.65; flex:1; font-weight: 300; }
+
+    .app-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      background: var(--bg-toolbar); border: 1px solid var(--border-md);
+      border-radius: var(--r-pill); padding: 3px 10px;
+      font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .ver { font-size: 0.7rem; color: var(--text-muted); }
+
+    .dl-btn {
+      display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
+      background: var(--bg-toolbar); color: var(--text-secondary);
+      border: 1px solid var(--border-md); border-radius: var(--r-pill);
+      padding: 9px 16px; font-family: var(--font-ui); font-size: 0.82rem; font-weight: 500;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.25s var(--spring), background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .dl-btn:hover {
+      transform: translateY(-2px); background: var(--accent); color: var(--accent-text);
+      border-color: var(--accent); box-shadow: 0 6px 20px rgba(181,168,152,0.4);
+    }
+
+    .issues-list{
+      margin-top: 10px;
+    }
+
+    .issues-band {
+      padding-left: auto;
+      padding-right: auto;
+    }
+
+    .rounded {
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+    }
+    .app-card.soon { opacity: 0.62; }
+    .app-card.soon .dl-btn { pointer-events: none; }
+    .soon-pill {
+      background: var(--bg-input); border: 1px solid var(--border-md); border-radius: var(--r-pill);
+      padding: 2px 8px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* ── FEATURES ───────────────────────────── */
+    .features-band { background: var(--bg-sidebar); border-top: 1px solid var(--border-md); border-bottom: 1px solid var(--border-md); }
+    .features-inner { max-width: 960px; margin: 0 auto; padding: 72px 24px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 12px; margin-top: 32px; }
+
+    .feat {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 18px;
+      display: flex; flex-direction: column; gap: 7px;
+      box-shadow: var(--shadow-xs);
+      transition: transform 0.25s var(--spring), box-shadow 0.25s;
+    }
+    .feat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .feat-icon { width: 34px; height: 34px; border-radius: var(--r-sm); background: var(--accent-soft); border: 1px solid var(--border-md); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .feat-title { font-size: 0.85rem; font-weight: 600; color: var(--text-strong); }
+    .feat-desc  { font-size: 0.77rem; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+
+    /* ── FOOTER ─────────────────────────────── */
+    footer { background: var(--bg-toolbar); border-top: 1px solid var(--border-md); }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto; padding: 40px 24px;
+      display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 28px;
+    }
+    .fb-wm { display: flex; align-items: baseline; gap: 2px; margin-bottom: 5px; }
+    .fb-s { font-family: var(--font-script); font-size: 1.25rem; font-weight: 700; color: var(--text-strong); }
+    .fb-u { font-family: var(--font-ui); font-size: 0.95rem; font-weight: 400; color: var(--text-secondary); }
+    .fb-sub { font-size: 0.77rem; color: var(--text-muted); font-weight: 300; }
+    .fcol { display: flex; flex-direction: column; gap: 5px; }
+    .fcol-title { font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .fcol a { font-size: 0.8rem; color: var(--text-secondary); text-decoration: none; font-weight: 300; transition: color 0.15s; }
+    .fcol a:hover { color: var(--text-strong); }
+    .footer-bottom {
+      max-width: 960px; margin: 0 auto; padding: 14px 24px;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+    }
+    .footer-bottom span { font-size: 0.73rem; color: var(--text-muted); font-weight: 300; }
+
+    /* ── ANIMATIONS ─────────────────────────── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+    .reveal { opacity:0; transform:translateY(16px); transition: opacity 0.6s var(--smooth), transform 0.6s var(--smooth); }
+    .reveal.in { opacity:1; transform:none; }
+    .stagger > * { opacity:0; transform:translateY(12px); transition: opacity 0.55s var(--smooth), transform 0.55s var(--smooth); }
+    .stagger.in > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.00s; }
+    .stagger.in > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.07s; }
+    .stagger.in > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.14s; }
+    .stagger.in > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.21s; }
+    .stagger.in > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.28s; }
+    .stagger.in > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.35s; }
+
+    /* ── RESPONSIVE ─────────────────────────── */
+    @media (max-width: 640px) {
+      .win-sidebar { display: none; }
+      .hero { padding: 48px 16px 60px; }
+      .section { padding: 56px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TITLEBAR -->
+  <header class="titlebar">
+
+    <div class="titlebar-center">
+      <span class="wm-script">Fleur</span><span class="wm-sans">Suite</span>
+    </div>
+
+    <div class="titlebar-right">
+      <a href="#apps"     class="icon-btn">Apps</a>
+      <a href="#features" class="icon-btn">About</a>
+      <a href="https://github.com" target="_blank" class="icon-btn">GitHub</a>
+      <div class="tb-sep"></div>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="icon-sun"  width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <div class="eyebrow">Built for windows</div>
+        <div class="hero-heading">
+          <span class="hs">Fleur</span><span class="hu">Suite</span>
+        </div>
+        <p class="hero-sub">A collection of small, thoughtfully crafted Windows apps. Warm, quiet, and beautiful.</p>
+        <div class="hero-actions">
+          <a href="#apps" class="btn btn-accent">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Apps
+          </a>
+        </div>
+      </div>
+
+      <!-- App window mockup -->
+      <img src="FleurScreenShot.png" width="50%" class="rounded">
+    </section>
+
+    <!-- FEATURES -->
+    <div class="divider"><span>Design Philosophy</span></div>
+
+    <div class="features-band" id="features">
+      <div class="features-inner">
+        <div class="reveal">
+          <div class="section-eyebrow">Principles</div>
+          <div class="section-heading"><span class="sh-s">Built with intention</span></div>
+          <p class="section-desc">Every FleurSuite app shares my same core values.</p>
+        </div>
+        <div class="features-grid stagger">
+          <div class="feat"><div class="feat-icon">🎨</div><div class="feat-title">Adaptive Themes</div><div class="feat-desc">Accent colors that follow Windows or your own custom choice.</div></div>
+          <div class="feat"><div class="feat-icon">🌷</div><div class="feat-title">Organic Aesthetic</div><div class="feat-desc">Rounded corners, pills, and a design language that feels like it belongs on modern devices.</div></div>
+          <div class="feat"><div class="feat-icon">🪟</div><div class="feat-title">Windows Native</div><div class="feat-desc">Built for Windows. Respects your system accent color and feels at home on your desktop.</div></div>
+          <div class="feat"><div class="feat-icon">💾</div><div class="feat-title">Offline First</div><div class="feat-desc">Your data stays on your machine. No accounts, no subscriptions, no cloud required.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APPS -->
+    <div class="divider"><span>The Collection</span></div>
+
+    <section class="section" id="apps">
+      <div class="reveal">
+        <div class="section-eyebrow">Apps</div>
+        <div class="section-heading"><span class="sh-s">Fleur</span><span class="sh-u">Suite</span></div>
+        <p class="section-desc">Each app stands on its own and shares the same design spirit — calm, quiet, and made to last.</p>
+      </div>
+
+      <div class="apps-grid stagger">
+        <div class="app-card">
+          <div class="app-icon">📝</div>
+          <div>
+            <div class="app-name"><span class="an-s">Fleur</span><span class="an-u">Notes</span></div>
+            <p class="app-desc">Rich-text notes with folders, version history, customizable themes, and a warm paper-like feel. Your thoughts, beautifully kept.</p>
+          </div>
+          <div class="app-meta">
+            <span class="chip">🪟 Windows</span>
+            <span class="ver">v1.0.0</span>
+          </div>
+          <a href="#" class="dl-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
+        </div>
+
+        <div class="app-card soon">
+          <div class="app-icon">🗓️</div>
+          <div>
+            <div class="app-name" style="gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:baseline;gap:2px"><span class="an-s">Fleur</span><span class="an-u">Calendar</span></span>
+              <span class="soon-pill">Coming Soon</span>
+            </div>
+            <p class="app-desc">Still under development</p>
+          </div>
+          <div class="app-meta"><span class="chip">🪟 Windows</span></div>
+          <a href="#" class="dl-btn">Coming Soon</a>
+        </div>
+
+        <div class="app-card soon">
+          <div class="app-icon">📖</div>
+          <div>
+            <div class="app-name" style="gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:baseline;gap:2px"><span class="an-s">Fleur</span><span class="an-u">Books</span></span>
+              <span class="soon-pill">Coming Soon</span>
+            </div>
+            <p class="app-desc">Still under development</p>
+          </div>
+          <div class="app-meta"><span class="chip">🪟 Windows</span></div>
+          <a href="#" class="dl-btn">Coming Soon</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Known Issues -->
+    <div class="divider"><span>Known Issues</span></div>
+    <div class="issues-band" id="issues">
+      <div class="features-inner">
+        <div class="reveal">
+          <div class="section-eyebrow">Apologies,</div>
+          <p class="section-desc"> Due to FleurSuite being a solo project, the apps may have small issues that I am currently working on. If you notice issues that disrupt your workflow, contact FleurSuiteContact@Gmail.com</p>
+        </div>
+        <div class="issues-list">
+          <p class ="section-eyebrow">Issues in FleurNotes:</p>
+          <p class ="feat-desc">- The Ctrl+F search feature highlight does not fully clear properly</p>
+          <p class ="feat-desc">- Dragging notes between folders can be annoying</p>
+          <p class ="feat-desc">- Instances where version history does not update properly</p>
+          <p class ="feat-desc">- Highlight and text color popups interact weirdly</p>
+          <p class ="feat-desc"> These are all being worked on and more behiend the scenes</p>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <div class="fb-wm"><span class="fb-s">Fleur</span><span class="fb-u">Suite</span></div>
+          <div class="fb-sub">Quietly useful. Beautifully made.</div>
+        </div>
+        <div class="fcol">
+          <div class="fcol-title">Apps</div>
+          <a href="#">FleurNotes</a>
+          <a href="#">FleurCalendar</a>
+          <a href="#">FleurBooks</a>
+        </div>
+        <div class="fcol">
+          <div class="fcol-title">Links</div>
+          <a href="https://github.com" target="_blank">GitHub</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 FleurSuite</span>
+        <span>Made with ♥ and attention to detail.</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Theme
+    const html = document.documentElement;
+    const apply = t => {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem('fleur-theme', t);
+      document.getElementById('icon-sun').style.display  = t === 'dark'  ? 'block' : 'none';
+      document.getElementById('icon-moon').style.display = t === 'light' ? 'block' : 'none';
+    };
+    apply(localStorage.getItem('fleur-theme') || 'light');
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      apply(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+      { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
+    );
+    document.querySelectorAll('.reveal, .stagger').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
