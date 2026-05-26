@@ -195,8 +195,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* MODIFIED: Placed higher up initially */
-      padding-top: 6vh; /* MODIFIED: Sits closer to the title bar top */
+      justify-content: center; /* MODIFIED: Set to vertically center layout elements */
       overflow: hidden;
     }
 
@@ -214,7 +213,7 @@
       font-weight: 600;
       color: var(--text-secondary);
       margin-bottom: 18px;
-      transition: opacity 0.4s var(--smooth), transform 0.4s var(--smooth);
+      transition: opacity 0.4s var(--smooth); /* MODIFIED: Removed transform transition to allow smooth scroll-driven translates */
       letter-spacing: 0.02em;
     }
     .color-pill .dot {
@@ -258,7 +257,7 @@
       padding: 24px 24px 32px;
       gap: 22px;
       position: relative; /* MODIFIED: Set position relative for Z-indexing */
-      z-index: 15; /* MODIFIED: Set Z-index to load ON TOP of scaled image */
+      z-index: 25; /* MODIFIED: Increased Z-index to layer securely on top of scaled images */
     }
 
     .carousel-label {
@@ -738,6 +737,12 @@
             Your Own Windows Accent Color
           </div>
 
+          <!-- MODIFIED: Selector controls are inside the sticky section, elegantly fading in at end of scroll -->
+          <div class="carousel-section" id="carouselSection" style="opacity: 0; pointer-events: none; transition: opacity 0.4s ease-out;">
+            <div class="carousel-label">
+              <em>Or any color you choose.</em> 💐
+            </div>
+
           <!-- MODIFIED: The unified carousel frame itself scales seamlessly directly inside the zoom stage -->
           <div class="carousel-frame" id="carouselFrame">
             <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
@@ -770,11 +775,7 @@
             </button>
           </div>
 
-          <!-- MODIFIED: Selector controls are inside the sticky section, elegantly fading in at end of scroll -->
-          <div class="carousel-section" id="carouselSection" style="opacity: 0; pointer-events: none; transition: opacity 0.4s ease-out;">
-            <div class="carousel-label">
-              <em>Or any color you choose.</em> 💐
-            </div>
+          
 
             <!-- pill row -->
             <div class="carousel-pill-row" id="pillRow">
@@ -1040,10 +1041,21 @@
       const scrolled = -rect.top; // how far we've scrolled into the zone
       const progress = Math.clamp(scrolled / total, 0, 1);
 
+      // MODIFIED: Center vertically at end of scroll, but start translated upwards (-70px) to appear higher up initially
+      const frameY = lerp(-70, 0, progress);
+
       // Scale: 0→0.8 of scroll = grow mockup carousel frame dynamically
       const zoomProgress = Math.clamp(progress / 0.8, 0, 1);
       const scale = lerp(START_SCALE, END_SCALE, easeOut(zoomProgress));
-      carouselFrame.style.transform = `scale(${scale})`;
+      carouselFrame.style.transform = `translateY(${frameY}px) scale(${scale})`;
+
+      // MODIFIED: Parting margins (Pill moves up slightly, controls slide down slightly as mockup scales)
+      // This ensures color selectors never overlap or clip through the bottom window boundary
+      const pillY = lerp(0, -25, progress);
+      pill.style.transform = `translateY(${pillY}px)`;
+
+      const sectionY = lerp(10, 35, progress);
+      carouselSection.style.transform = `translateY(${sectionY}px)`;
 
       // Hint fades out quickly
       scrollHint.style.opacity = Math.clamp(1 - progress * 8, 0, 1);
@@ -1063,20 +1075,16 @@
       if (progress >= 0.4 && pillPhase === 0) {
         pillPhase = 1;
         pill.style.opacity = '0';
-        pill.style.transform = 'translateY(8px)';
         setTimeout(() => {
           pill.innerHTML = '<span style="font-size:1.1em">💐</span> Or any color you choose.';
           pill.style.opacity = '1';
-          pill.style.transform = 'translateY(0)';
         }, 300);
       } else if (progress < 0.4 && pillPhase === 1) {
         pillPhase = 0;
         pill.style.opacity = '0';
-        pill.style.transform = 'translateY(8px)';
         setTimeout(() => {
           pill.innerHTML = '<span class="dot" style="background:linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99);width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0"></span> Your Own Windows Accent Color';
           pill.style.opacity = '1';
-          pill.style.transform = 'translateY(0)';
         }, 300);
       }
     }
