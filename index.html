@@ -183,8 +183,8 @@
     .scroll-zoom-wrapper {
       position: relative;
       width: 100%;
-      /* height controls how long the scroll "lingers" on the zoom effect */
-      height: 300vh;
+      /* MODIFIED: Shorter scrolling distance */
+      height: 140vh;
     }
 
     .scroll-zoom-sticky {
@@ -195,7 +195,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start; /* MODIFIED: Placed higher up initially */
+      padding-top: 6vh; /* MODIFIED: Sits closer to the title bar top */
       overflow: hidden;
     }
 
@@ -230,8 +231,8 @@
       border-radius: 18px;
       box-shadow: var(--shadow-window);
       transform-origin: center center;
-      transition: transform 0.05s linear;
-      will-change: transform;
+      transition: transform 0.05s linear, opacity 0.2s ease-out; /* MODIFIED: Opacity transition added */
+      will-change: transform, opacity;
       display: block;
     }
 
@@ -333,12 +334,14 @@
       width: 100%;
     }
 
+    /* MODIFIED: Fixed overlapping slides, shadow stacking, and backwards navigation blocking */
     .carousel-slide {
       position: absolute;
       top: 0; left: 0; width: 100%;
       opacity: 0;
+      visibility: hidden; /* Prevent inactive slide elements and shadows from overlapping */
       transform: translateX(40px) scale(0.97);
-      transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth);
+      transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth), visibility 0.45s var(--smooth);
       pointer-events: none;
       border-radius: 18px;
       box-shadow: var(--shadow-window);
@@ -346,12 +349,20 @@
     .carousel-slide.active {
       position: relative;
       opacity: 1;
+      visibility: visible;
       transform: translateX(0) scale(1);
       pointer-events: auto;
     }
     .carousel-slide.exit-left {
       opacity: 0;
+      visibility: visible;
       transform: translateX(-40px) scale(0.97);
+    }
+    /* MODIFIED: Added exit-right styling for backwards slide navigation */
+    .carousel-slide.exit-right {
+      opacity: 0;
+      visibility: visible;
+      transform: translateX(40px) scale(0.97);
     }
 
     .carousel-slide img {
@@ -891,7 +902,10 @@
         </div>
       </div>
     </section>
-    
+
+    <!-- ═══════════════════════════════════
+         KNOWN ISSUES — REDESIGNED
+         ═══════════════════════════════════ -->
     <div class="divider"><span>Known Issues</span></div>
 
     <div class="issues-band" id="issues">
@@ -1039,6 +1053,14 @@
       // Hint fades out quickly
       scrollHint.style.opacity = Math.clamp(1 - progress * 8, 0, 1);
 
+      // MODIFIED: Elegant opacity fadeout transition at the very end of scroll (from 0.85 to 1.0 progress)
+      if (progress > 0.85) {
+        const fadeOutProgress = (1 - progress) / 0.15;
+        screenshot.style.opacity = Math.max(0, fadeOutProgress);
+      } else {
+        screenshot.style.opacity = 1;
+      }
+
       // Pill phase swap at 40% scroll
       if (progress >= 0.4 && pillPhase === 0) {
         pillPhase = 1;
@@ -1084,6 +1106,7 @@
       dotsEl.appendChild(d);
     });
 
+    // MODIFIED: Optimized slide transitioning to clean up layered slides and handle backwards directions perfectly
     function goTo(idx) {
       if (animating || idx === current) return;
       animating = true;
@@ -1091,11 +1114,13 @@
       const outSlide  = slides[current];
       const inSlide   = slides[idx];
 
+      // outgoing slide slides out in the appropriate direction
       outSlide.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
 
       // set incoming starting position
       inSlide.style.transform = `translateX(${direction * 40}px) scale(0.97)`;
       inSlide.style.opacity   = '0';
+      inSlide.style.visibility = 'visible'; // Ensure it becomes visible during the transition animation
       inSlide.style.position  = 'absolute';
       inSlide.style.top       = '0';
       inSlide.style.left      = '0';
@@ -1114,6 +1139,9 @@
         inSlide.classList.add('active');
         inSlide.style.position  = 'relative';
         inSlide.style.transition = '';
+        inSlide.style.transform = '';
+        inSlide.style.opacity = '';
+        inSlide.style.visibility = ''; // Reset inline style so classes take over cleanly
         animating = false;
       }, 460);
 
