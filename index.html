@@ -11,25 +11,25 @@
 
   <style>
     :root {
-      --bg-window:    #edecea;
-      --bg-sidebar:   #f2f1ef;
-      --bg-surface:   #ffffff;
-      --bg-toolbar:   #f0efee;
-      --bg-input:     #e8e7e4;
-      --bg-hover:     #e8e7e5;
+      --bg-window:   #edecea;
+      --bg-sidebar:  #f2f1ef;
+      --bg-surface:  #ffffff;
+      --bg-toolbar:  #f0efee;
+      --bg-input:    #e8e7e4;
+      --bg-hover:    #e8e7e5;
 
-      --accent:       #b5a898;
-      --accent-text:  #ffffff;
-      --accent-soft:  #f0ebe6;
-      --accent-mid:   #ccc0b5;
+      --accent:      #b5a898;
+      --accent-text: #ffffff;
+      --accent-soft: #f0ebe6;
+      --accent-mid:  #ccc0b5;
 
       --text-strong:   #1e1d1c;
       --text-body:     #3a3836;
       --text-secondary:#6e6a66;
       --text-muted:    #a09890;
 
-      --border:      rgba(0,0,0,0.07);
-      --border-md:   rgba(0,0,0,0.11);
+      --border:     rgba(0,0,0,0.07);
+      --border-md:  rgba(0,0,0,0.11);
 
       --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
       --shadow-sm: 0 2px 8px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
@@ -52,24 +52,24 @@
     }
 
     [data-theme="dark"] {
-      --bg-window:    #1c1b1a;
-      --bg-sidebar:   #242322;
-      --bg-surface:   #2d2c2a;
-      --bg-toolbar:   #222120;
-      --bg-input:     #1a1918;
-      --bg-hover:     #333230;
+      --bg-window:   #1c1b1a;
+      --bg-sidebar:  #242322;
+      --bg-surface:  #2d2c2a;
+      --bg-toolbar:  #222120;
+      --bg-input:    #1a1918;
+      --bg-hover:    #333230;
 
-      --accent:       #b5a898;
-      --accent-soft:  #2e2926;
-      --accent-mid:   #4a4440;
+      --accent:      #b5a898;
+      --accent-soft: #2e2926;
+      --accent-mid:  #4a4440;
 
       --text-strong:   #f0edea;
       --text-body:     #d4cfc9;
       --text-secondary:#968e88;
       --text-muted:    #5e5a56;
 
-      --border:      rgba(255,255,255,0.06);
-      --border-md:   rgba(255,255,255,0.10);
+      --border:     rgba(255,255,255,0.06);
+      --border-md:  rgba(255,255,255,0.10);
 
       --shadow-xs: 0 1px 3px rgba(0,0,0,0.3);
       --shadow-sm: 0 2px 8px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.04);
@@ -129,7 +129,7 @@
     /* ── HERO */
     .hero {
       display: flex; flex-direction: column; align-items: center;
-      padding: 48px 24px 40px; gap: 32px;
+      padding: 64px 24px 80px; gap: 52px;
     }
     .hero-text {
       text-align: center; max-width: 540px;
@@ -142,7 +142,7 @@
       color: var(--text-muted); margin-bottom: 14px;
     }
     .hero-heading {
-      display: flex; align-items: center; justify-content: center; gap: 12px;
+      display: flex; align-items: baseline; justify-content: center; gap: 4px;
       margin-bottom: 14px;
     }
     .hero-heading .hs { font-family: var(--font-script); font-size: clamp(2.8rem,7vw,4rem); font-weight: 700; color: var(--text-strong); line-height: 1; }
@@ -176,13 +176,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 0;
     }
 
-    /* Sticky scroll container - SHORTER DISTANCE (130vh) */
+    /* Sticky scroll container */
     .scroll-zoom-wrapper {
       position: relative;
       width: 100%;
-      height: 130vh;
+      /* height controls how long the scroll "lingers" on the zoom effect */
+      height: 300vh;
     }
 
     .scroll-zoom-sticky {
@@ -193,17 +195,16 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* MODIFIED: Higher up initially */
-      padding-top: 30px; /* MODIFIED: Closer to top titlebar */
+      justify-content: center;
       overflow: hidden;
     }
 
-    /* Dynamic Accent Pill */
+    /* Color pill above carousel */
     .color-pill {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      padding: 6px 16px;
+      padding: 5px 16px;
       border-radius: var(--r-pill);
       background: var(--bg-surface);
       border: 1px solid var(--border-md);
@@ -211,185 +212,33 @@
       font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-secondary);
-      margin-bottom: 24px;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      margin-bottom: 18px;
+      transition: opacity 0.4s var(--smooth), transform 0.4s var(--smooth);
       letter-spacing: 0.02em;
-      z-index: 5;
     }
     .color-pill .dot {
       width: 9px; height: 9px;
       border-radius: 50%;
       display: inline-block;
       flex-shrink: 0;
-      transition: background 0.3s var(--smooth);
     }
 
-    /* Seamless Carousel Frame */
-    .carousel-frame {
-      position: relative;
-      width: 82%;
-      max-width: 720px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      will-change: transform;
-      transform-origin: center top;
-      z-index: 4;
-    }
-
-    .carousel-track {
-      position: relative;
-      width: 100%;
-      border-radius: 18px;
-      aspect-ratio: 16 / 10;
-      background: transparent;
-    }
-
-    /* Slide Styling — FIXING the overlapping shadow & obstruction issue */
-    .carousel-slide {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      visibility: hidden; /* FIX: Prevents layout shadow overlapping and click blockages */
-      transform: scale(0.96) translateY(10px);
-      transition: opacity 0.5s var(--smooth), transform 0.5s var(--smooth), visibility 0.5s;
-      pointer-events: none;
+    /* The main screenshot image in scroll zone */
+    .scroll-screenshot {
+      width: 50%;
+      max-width: 700px;
       border-radius: 18px;
       box-shadow: var(--shadow-window);
-      overflow: hidden;
-    }
-    
-    .carousel-slide.active {
-      position: relative; /* Maintain container height natively if needed */
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1) translateY(0);
-      pointer-events: auto;
-      z-index: 10;
-    }
-
-    /* Swipe Left/Right Directions */
-    .carousel-slide.exit-left {
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.96) translateX(-40px);
-      z-index: 1;
-    }
-    
-    .carousel-slide.enter-right {
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.96) translateX(40px);
-      z-index: 1;
-    }
-
-    .carousel-slide svg, .carousel-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 18px;
+      transform-origin: center center;
+      transition: transform 0.05s linear;
+      will-change: transform;
       display: block;
     }
-
-    /* Navigation Arrows */
-    .carousel-arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-md);
-      box-shadow: var(--shadow-sm);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary);
-      transition: transform 0.2s var(--spring), background 0.15s, color 0.15s, opacity 0.3s var(--smooth);
-      z-index: 15;
-      opacity: 0; /* Animated dynamically by scroll */
-      pointer-events: none;
-    }
-    .carousel-arrow:hover { transform: translateY(-50%) scale(1.08); background: var(--accent); color: white; border-color: var(--accent); }
-    .carousel-arrow.prev { left: -56px; }
-    .carousel-arrow.next { right: -56px; }
-
-    /* Carousel controls below the screenshot (animated by scrolling) */
-    .carousel-controls-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      margin-top: 24px;
-      width: 100%;
-      opacity: 0; /* Animated dynamically by scroll */
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    .carousel-label {
-      font-size: 0.88rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      text-align: center;
-    }
-    .carousel-label em {
-      font-style: normal;
-      font-family: var(--font-script);
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text-strong);
-    }
-
-    .carousel-pill-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .cpill {
-      padding: 6px 15px;
-      border-radius: var(--r-pill);
-      font-size: 0.72rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      transition: transform 0.22s var(--spring), box-shadow 0.2s, opacity 0.2s, border-color 0.2s;
-      display: flex; align-items: center; gap: 6px;
-      letter-spacing: 0.03em;
-    }
-    .cpill:hover { transform: translateY(-2px) scale(1.04); }
-    .cpill.active { border-color: currentColor; box-shadow: var(--shadow-sm); transform: scale(1.04); }
-
-    /* pill colors */
-    .cpill-tan     { background: #f0ebe6; color: #7a6e65; }
-    .cpill-green   { background: #e4f0e3; color: #3a6b37; }
-    .cpill-purple  { background: #ede9f5; color: #5d4d8a; }
-    .cpill-red     { background: #fae8e7; color: #8a3430; }
-    .cpill-blue    { background: #e5eef8; color: #2e5a8a; }
-    .cpill-mono    { background: #eeecea; color: #4a4845; }
-    [data-theme="dark"] .cpill-tan    { background: #2e2926; color: #c8b8ac; }
-    [data-theme="dark"] .cpill-green  { background: #1e2e1d; color: #7fb87b; }
-    [data-theme="dark"] .cpill-purple { background: #26213a; color: #b0a0d4; }
-    [data-theme="dark"] .cpill-red    { background: #2e1c1b; color: #d48a87; }
-    [data-theme="dark"] .cpill-blue   { background: #1a2436; color: #7aaad4; }
-    [data-theme="dark"] .cpill-mono   { background: #222120; color: #a09890; }
-
-    /* dot indicators */
-    .carousel-dots {
-      display: flex; gap: 7px; margin-top: 8px;
-    }
-    .carousel-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent-mid);
-      cursor: pointer;
-      transition: transform 0.22s var(--spring), background 0.2s;
-    }
-    .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
 
     /* Scroll hint arrow */
     .scroll-hint {
       position: absolute;
-      bottom: 20px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -410,6 +259,138 @@
       0%, 100% { transform: translateX(-50%) translateY(0); }
       50% { transform: translateX(-50%) translateY(6px); }
     }
+
+    /* ── CAROUSEL (after scroll zone) */
+    .carousel-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 24px 72px;
+      gap: 22px;
+    }
+
+    .carousel-label {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      text-align: center;
+      animation: fadeUp 0.6s var(--smooth) both;
+    }
+    .carousel-label em {
+      font-style: normal;
+      font-family: var(--font-script);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+
+    .carousel-pill-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cpill {
+      padding: 5px 15px;
+      border-radius: var(--r-pill);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: transform 0.22s var(--spring), box-shadow 0.2s, opacity 0.2s, border-color 0.2s;
+      display: flex; align-items: center; gap: 6px;
+      letter-spacing: 0.03em;
+    }
+    .cpill:hover { transform: translateY(-2px) scale(1.05); }
+    .cpill.active { border-color: currentColor; box-shadow: 0 4px 14px rgba(0,0,0,0.12); transform: scale(1.06); }
+
+    /* pill colors */
+    .cpill-tan     { background: #f0ebe6; color: #7a6e65; }
+    .cpill-green   { background: #e4f0e3; color: #3a6b37; }
+    .cpill-purple  { background: #ede9f5; color: #5d4d8a; }
+    .cpill-red     { background: #fae8e7; color: #8a3430; }
+    .cpill-blue    { background: #e5eef8; color: #2e5a8a; }
+    .cpill-mono    { background: #eeecea; color: #4a4845; }
+    [data-theme="dark"] .cpill-tan    { background: #2e2926; color: #c8b8ac; }
+    [data-theme="dark"] .cpill-green  { background: #1e2e1d; color: #7fb87b; }
+    [data-theme="dark"] .cpill-purple { background: #26213a; color: #b0a0d4; }
+    [data-theme="dark"] .cpill-red    { background: #2e1c1b; color: #d48a87; }
+    [data-theme="dark"] .cpill-blue   { background: #1a2436; color: #7aaad4; }
+    [data-theme="dark"] .cpill-mono   { background: #222120; color: #a09890; }
+
+    .carousel-frame {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-track {
+      position: relative;
+      width: 100%;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      top: 0; left: 0; width: 100%;
+      opacity: 0;
+      transform: translateX(40px) scale(0.97);
+      transition: opacity 0.45s var(--smooth), transform 0.45s var(--smooth);
+      pointer-events: none;
+      border-radius: 18px;
+      box-shadow: var(--shadow-window);
+    }
+    .carousel-slide.active {
+      position: relative;
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+    .carousel-slide.exit-left {
+      opacity: 0;
+      transform: translateX(-40px) scale(0.97);
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+    }
+
+    /* nav arrows */
+    .carousel-arrow {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-md);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary);
+      transition: transform 0.2s var(--spring), background 0.15s, color 0.15s;
+      z-index: 2;
+    }
+    .carousel-arrow:hover { transform: translateY(-50%) scale(1.1); background: var(--accent); color: white; }
+    .carousel-arrow.prev { left: -48px; }
+    .carousel-arrow.next { right: -48px; }
+
+    /* dot indicators */
+    .carousel-dots {
+      display: flex; gap: 7px; margin-top: 18px;
+    }
+    .carousel-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-mid);
+      cursor: pointer;
+      transition: transform 0.22s var(--spring), background 0.2s;
+    }
+    .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
 
     /* ── SECTION SHARED */
     .section { max-width: 960px; margin: 0 auto; padding: 72px 24px; }
@@ -473,7 +454,9 @@
     .feat-title { font-size: 0.85rem; font-weight: 600; color: var(--text-strong); }
     .feat-desc  { font-size: 0.77rem; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
 
-    /* ── KNOWN ISSUES */
+    /* ═══════════════════════════════════════════
+       KNOWN ISSUES — REDESIGNED
+       ═══════════════════════════════════════════ */
     .issues-band {
       background: var(--bg-sidebar);
       border-top: 1px solid var(--border-md);
@@ -487,6 +470,7 @@
       flex-direction: column;
       gap: 32px;
     }
+
     .issues-header {
       display: flex;
       flex-direction: column;
@@ -499,11 +483,14 @@
       max-width: 520px;
       font-weight: 300;
     }
+
     .issues-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 14px;
     }
+
+    /* individual issue card */
     .issue-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-md);
@@ -516,6 +503,7 @@
       transition: transform 0.25s var(--spring), box-shadow 0.25s;
     }
     .issue-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
     .issue-card-header {
       display: flex;
       align-items: center;
@@ -552,6 +540,7 @@
       color: #c89848;
       border-color: rgba(200,152,72,0.2);
     }
+
     .issue-list {
       list-style: none;
       display: flex;
@@ -575,7 +564,7 @@
       margin-top: 6px;
     }
 
-    /* notice card */
+    /* notice card — the "important" block */
     .notice-card {
       background: var(--bg-surface);
       border: 1px solid var(--border-md);
@@ -684,12 +673,12 @@
 
     @media (max-width: 640px) {
       .win-sidebar { display: none; }
-      .hero { padding: 32px 16px 20px; }
+      .hero { padding: 48px 16px 60px; }
       .section { padding: 56px 16px; }
-      .carousel-frame { width: 90%; }
-      .carousel-arrow.prev { left: -14px; }
-      .carousel-arrow.next { right: -14px; }
-      .carousel-arrow { width: 34px; height: 34px; }
+      .scroll-screenshot { width: 82%; }
+      .carousel-arrow.prev { left: -18px; }
+      .carousel-arrow.next { right: -18px; }
+      .carousel-arrow { width: 30px; height: 30px; }
     }
   </style>
 </head>
@@ -717,9 +706,9 @@
         <div class="eyebrow">Built for windows</div>
         <div class="hero-heading">
           <span class="hs">Fleur</span><span class="hu">Suite</span>
-          <span style="font-size: 2.2rem; align-self: center; margin-left: 6px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.1));">🌸</span>
+          <img src="FleurSuite Flower Logo 400x400.png" height="100px" style="align-self: center; padding-bottom: 20px;">
         </div>
-        <p class="hero-sub">Just released — FleurNotes. A modern, minimalist taking-notes suite designed natively for Windows layouts.</p>
+        <p class="hero-sub">Just released — FleurNotes. A modern notetaking app built to work natively on Windows.</p>
         <div class="hero-actions">
           <a href="#apps" class="btn btn-accent">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -730,555 +719,436 @@
     </section>
 
     <!-- ═══════════════════════════════════
-         SCROLL SYSTEM (SHORTER, MORPHS DIRECTLY AT THE BOTTOM)
+         SCROLL ZOOM SECTION
          ═══════════════════════════════════ -->
     <div class="screenshot-section">
+
+      <!-- Phase 1: sticky scroll-zoom -->
       <div class="scroll-zoom-wrapper" id="scrollZoneWrapper">
         <div class="scroll-zoom-sticky" id="scrollZoneSticky">
 
-          <!-- Pill above the Morphing Screen -->
+          <!-- pill label — changes as you scroll -->
           <div class="color-pill" id="scrollPill">
-            <span class="dot" style="background: #b5a898"></span>
-            <span id="pillText">Your Own Windows Accent Color</span>
+            <span class="dot" style="background: linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99)"></span>
+            Your Own Windows Accent Color
           </div>
 
-          <!-- Carousel Container (Also morphs beautifully on scroll) -->
-          <div class="carousel-frame" id="carouselFrame">
-            
-            <!-- Left Arrow -->
-            <button class="carousel-arrow prev" id="prevBtn" aria-label="Previous image">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </button>
+          <img
+            src="FleurScreenShot.png"
+            class="scroll-screenshot"
+            id="scrollScreenshot"
+            alt="FleurNotes screenshot"
+          />
 
-            <!-- Slide Track -->
-            <div class="carousel-track" id="carouselTrack">
-              
-              <!-- Slide 0 (Initially the Scroll Screen) -->
-              <div class="carousel-slide active" data-idx="0">
-                <img src="FleurScreenShot.png" alt="Warm Tan Screenshot" onerror="this.outerHTML=getMockupSVG('#b5a898', 'Warm Tan Theme', 'FleurNotes is styled around native Windows acrylic materials.')" />
-              </div>
-
-              <!-- Slide 1 -->
-              <div class="carousel-slide" data-idx="1">
-                <img src="FleurScreenShot-Green.png" alt="Sage Green Screenshot" onerror="this.outerHTML=getMockupSVG('#4caf7d', 'Sage Green Theme', 'Reflects the calmness of garden notes.')" />
-              </div>
-
-              <!-- Slide 2 -->
-              <div class="carousel-slide" data-idx="2">
-                <img src="FleurScreenShot-Purple.png" alt="Lavender Screenshot" onerror="this.outerHTML=getMockupSVG('#9575cd', 'Lavender Theme', 'A soft pastel canvas for creative ideas.')" />
-              </div>
-
-              <!-- Slide 3 -->
-              <div class="carousel-slide" data-idx="3">
-                <img src="FleurScreenShot-Red.png" alt="Rose Red Screenshot" onerror="this.outerHTML=getMockupSVG('#e57373', 'Rose Red Theme', 'Vibrant margins and dynamic header elements.')" />
-              </div>
-
-              <!-- Slide 4 -->
-              <div class="carousel-slide" data-idx="4">
-                <img src="FleurScreenShot-Blue.png" alt="Sky Blue Screenshot" onerror="this.outerHTML=getMockupSVG('#5b9bd5', 'Sky Blue Theme', 'A clean, clear digital workspace.')" />
-              </div>
-
-              <!-- Slide 5 -->
-              <div class="carousel-slide" data-idx="5">
-                <img src="FleurScreenShot-Mono.png" alt="Monochrome Screenshot" onerror="this.outerHTML=getMockupSVG('#7f7f7f', 'Monochrome Theme', 'High contrast, neutral aesthetic.')" />
-              </div>
-
-            </div>
-
-            <!-- Right Arrow -->
-            <button class="carousel-arrow next" id="nextBtn" aria-label="Next image">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </button>
-
-          </div>
-
-          <!-- Carousel Controls Block: Fades up at 100% of the scroll morph -->
-          <div class="carousel-controls-container" id="carouselControls">
-            <div class="carousel-label">
-              <em>Or any color you choose.</em> 💐
-            </div>
-
-            <div class="carousel-pill-row" id="pillRow">
-              <button class="cpill cpill-tan active" data-idx="0">
-                <span style="width:8px;height:8px;border-radius:50%;background:#b5a898;display:inline-block;"></span>
-                Warm Tan
-              </button>
-              <button class="cpill cpill-green" data-idx="1">
-                <span style="width:8px;height:8px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>
-                Sage Green
-              </button>
-              <button class="cpill cpill-purple" data-idx="2">
-                <span style="width:8px;height:8px;border-radius:50%;background:#9575cd;display:inline-block;"></span>
-                Lavender
-              </button>
-              <button class="cpill cpill-red" data-idx="3">
-                <span style="width:8px;height:8px;border-radius:50%;background:#e57373;display:inline-block;"></span>
-                Rose Red
-              </button>
-              <button class="cpill cpill-blue" data-idx="4">
-                <span style="width:8px;height:8px;border-radius:50%;background:#5b9bd5;display:inline-block;"></span>
-                Sky Blue
-              </button>
-              <button class="cpill cpill-mono" data-idx="5">
-                <span style="width:8px;height:8px;border-radius:50%;background:#7f7f7f;display:inline-block;"></span>
-                Monochrome
-              </button>
-            </div>
-
-            <div class="carousel-dots" id="dotsRow">
-              <span class="carousel-dot active" data-idx="0"></span>
-              <span class="carousel-dot" data-idx="1"></span>
-              <span class="carousel-dot" data-idx="2"></span>
-              <span class="carousel-dot" data-idx="3"></span>
-              <span class="carousel-dot" data-idx="4"></span>
-              <span class="carousel-dot" data-idx="5"></span>
-            </div>
-          </div>
-
-          <!-- Scroll Hint -->
           <div class="scroll-hint" id="scrollHint">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-            Scroll to Customize
+            Scroll
           </div>
 
         </div>
       </div>
-    </div>
 
-    <!-- ── APPS SECTION -->
-    <section class="section" id="apps">
-      <div class="reveal">
-        <span class="section-eyebrow">The Suite</span>
-        <h2 class="section-heading">
-          <span class="sh-s">Fleur</span><span class="sh-u">Apps</span>
-        </h2>
-        <p class="section-desc">Experience Windows software built to enhance writing workflow, note organization, and beautiful aesthetics.</p>
-      </div>
+      <!-- Phase 2: carousel -->
+      <div class="carousel-section reveal" id="carouselSection">
+        <div class="carousel-label">
+          <em>Or any color you choose.</em> 💐
+        </div>
 
-      <div class="apps-grid stagger">
-        <!-- FleurNotes -->
-        <div class="app-card">
-          <div class="app-icon">📒</div>
-          <div class="app-name">
-            <span class="an-s">Fleur</span><span class="an-u">Notes</span>
-          </div>
-          <p class="app-desc">Organize research thoughts, daily notes, and journals. Immersive tabs, clean layouts, and gorgeous acrylic frames.</p>
-          <div class="app-meta">
-            <span class="chip">v1.0.4 • Stable</span>
-            <span class="ver">Win 10/11</span>
-          </div>
-          <button class="dl-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download .msix
+        <!-- pill row -->
+        <div class="carousel-pill-row" id="pillRow">
+          <button class="cpill cpill-tan active" data-idx="0">
+            <span style="width:8px;height:8px;border-radius:50%;background:#b5a898;display:inline-block;"></span>
+            Warm Tan
+          </button>
+          <button class="cpill cpill-green" data-idx="1">
+            <span style="width:8px;height:8px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>
+            Sage Green
+          </button>
+          <button class="cpill cpill-purple" data-idx="2">
+            <span style="width:8px;height:8px;border-radius:50%;background:#9575cd;display:inline-block;"></span>
+            Lavender
+          </button>
+          <button class="cpill cpill-red" data-idx="3">
+            <span style="width:8px;height:8px;border-radius:50%;background:#e57373;display:inline-block;"></span>
+            Rose Red
+          </button>
+          <button class="cpill cpill-blue" data-idx="4">
+            <span style="width:8px;height:8px;border-radius:50%;background:#5b9bd5;display:inline-block;"></span>
+            Sky Blue
+          </button>
+          <button class="cpill cpill-mono" data-idx="5">
+            <span style="width:8px;height:8px;border-radius:50%;background:#888888;display:inline-block;"></span>
+            Monochrome
           </button>
         </div>
 
-        <!-- FleurDraw -->
-        <div class="app-card soon">
-          <span class="soon-pill" style="position: absolute; right: 16px; top: 16px;">Soon</span>
-          <div class="app-icon">🎨</div>
-          <div class="app-name">
-            <span class="an-s">Fleur</span><span class="an-u">Draw</span>
+        <!-- carousel frame -->
+        <div class="carousel-frame">
+          <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide active" data-idx="0">
+              <img src="FleurScreenShot.png" alt="FleurNotes – Warm Tan theme" />
+            </div>
+            <div class="carousel-slide" data-idx="1">
+              <img src="FleurNotesGreen.png" alt="FleurNotes – Sage Green theme" />
+            </div>
+            <div class="carousel-slide" data-idx="2">
+              <img src="FleurNotesPurple.png" alt="FleurNotes – Lavender theme" />
+            </div>
+            <div class="carousel-slide" data-idx="3">
+              <img src="FleurNotesRed.png" alt="FleurNotes – Rose Red theme" />
+            </div>
+            <div class="carousel-slide" data-idx="4">
+              <img src="FleurNotesBlue.png" alt="FleurNotes – Sky Blue theme" />
+            </div>
+            <div class="carousel-slide" data-idx="5">
+              <img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome theme" />
+            </div>
           </div>
-          <p class="app-desc">A gorgeous modern whiteboard canvas to sketch ideas, structure mindmaps, and scribble notes seamlessly.</p>
-          <div class="app-meta">
-            <span class="chip">v0.1.0 • Alpha</span>
-            <span class="ver">Win 11</span>
-          </div>
-          <button class="dl-btn" disabled>Coming Soon</button>
+
+          <button class="carousel-arrow next" id="carouselNext" aria-label="Next">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
         </div>
 
-        <!-- FleurFocus -->
-        <div class="app-card soon">
-          <span class="soon-pill" style="position: absolute; right: 16px; top: 16px;">Soon</span>
-          <div class="app-icon">⏳</div>
-          <div class="app-name">
-            <span class="an-s">Fleur</span><span class="an-u">Focus</span>
-          </div>
-          <p class="app-desc">Sleek, fluid pomodoro widget keeping tasks visible and distraction-free on your desktop background.</p>
-          <div class="app-meta">
-            <span class="chip">v0.1.0 • Concept</span>
-            <span class="ver">Win 10/11</span>
-          </div>
-          <button class="dl-btn" disabled>Coming Soon</button>
-        </div>
+        <div class="carousel-dots" id="carouselDots"></div>
       </div>
-    </section>
+    </div>
 
-    <!-- ── FEATURES SECTION -->
+    <!-- FEATURES -->
+    <div class="divider"><span>Design Philosophy</span></div>
+
     <div class="features-band" id="features">
       <div class="features-inner">
         <div class="reveal">
-          <span class="section-eyebrow">Features</span>
-          <h2 class="section-heading">
-            <span class="sh-s">Why</span><span class="sh-u"> FleurSuite?</span>
-          </h2>
-          <p class="section-desc">We make utilities optimized for Windows. No web browser wrappers, no high RAM usage, just clean speeds.</p>
+          <div class="section-eyebrow">Principles</div>
+          <div class="section-heading"><span class="sh-s">Built with intention</span></div>
+          <p class="section-desc">Every FleurSuite app shares my same core values.</p>
         </div>
-
         <div class="features-grid stagger">
-          <div class="feat">
-            <div class="feat-icon">⚡</div>
-            <h3 class="feat-title">Natively Built</h3>
-            <p class="feat-desc">Written in C# and WinUI 3. Boots in milliseconds and uses almost zero system memory.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">💎</div>
-            <h3 class="feat-title">Acrylic & Mica</h3>
-            <p class="feat-desc">Stunning interface materials dynamically blurring behind your custom desktop wallpaper.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🔒</div>
-            <h3 class="feat-title">Local Privacy First</h3>
-            <p class="feat-desc">All document files remain stored directly on your computer. Offline by design, secure forever.</p>
-          </div>
-          <div class="feat">
-            <div class="feat-icon">🌷</div>
-            <h3 class="feat-title">Custom Accents</h3>
-            <p class="feat-desc">Sync your workspace accent color with your system configuration instantly.</p>
-          </div>
+          <div class="feat"><div class="feat-icon">🎨</div><div class="feat-title">Adaptive Themes</div><div class="feat-desc">Accent colors that follow Windows or your own custom choice.</div></div>
+          <div class="feat"><div class="feat-icon">🌷</div><div class="feat-title">Organic Aesthetic</div><div class="feat-desc">Rounded corners, pills, and a design language that feels like it belongs on modern devices.</div></div>
+          <div class="feat"><div class="feat-icon">🪟</div><div class="feat-title">Windows Native</div><div class="feat-desc">Built for Windows. Respects your system accent color and feels at home on your desktop.</div></div>
+          <div class="feat"><div class="feat-icon">💾</div><div class="feat-title">Offline First</div><div class="feat-desc">Your data stays on your machine. No accounts, no subscriptions, no cloud required.</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ── KNOWN ISSUES SECTION -->
-    <section class="issues-band">
-      <div class="issues-inner">
-        <div class="issues-header reveal">
-          <span class="section-eyebrow">Development Transparency</span>
-          <h2 class="section-heading">
-            <span class="sh-s">Known</span><span class="sh-u"> Issues</span>
-          </h2>
-          <p>We are consistently polishing FleurSuite. Here is what we're working on fixing in the upcoming builds.</p>
+    <!-- APPS -->
+    <div class="divider"><span>Download</span></div>
+
+    <section class="section" id="apps">
+      <div class="reveal">
+        <div class="section-eyebrow">Apps</div>
+        <div class="section-heading"><span class="sh-s">Fleur</span><span class="sh-u">Suite</span></div>
+        <p class="section-desc">FleurNotes now available to download in Beta.</p>
+      </div>
+
+      <div class="apps-grid stagger">
+        <div class="app-card">
+          <div class="app-icon">📝</div>
+          <div>
+            <div class="app-name"><span class="an-s">Fleur</span><span class="an-u">Notes</span></div>
+            <p class="app-desc">Rich-text notes with folders, version history, customizable themes, and a warm paper-like feel. Your thoughts, beautifully kept.</p>
+          </div>
+          <div class="app-meta">
+            <span class="chip">🪟 Windows</span>
+            <span class="ver">v1.0.0</span>
+          </div>
+          <a href="/FleurSuite/downloads/FleurNotesV1.0.0.zip" download class="dl-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </a>
         </div>
 
-        <div class="issues-grid stagger">
-          <div class="issue-card">
-            <div class="issue-card-header">
-              <div class="issue-app-icon">📒</div>
-              <span class="issue-app-name">FleurNotes</span>
-              <span class="issue-status-pill">Investigating</span>
+        <div class="app-card soon">
+          <div class="app-icon">🗓️</div>
+          <div>
+            <div class="app-name" style="gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:baseline;gap:2px"><span class="an-s">Fleur</span><span class="an-u">Calendar</span></span>
+              <span class="soon-pill">Coming Soon</span>
             </div>
-            <ul class="issue-list">
-              <li>
-                <div class="issue-bullet"></div>
-                <span>Sync issues on nested subfolder creation.</span>
-              </li>
-              <li>
-                <div class="issue-bullet"></div>
-                <span>Export to PDF occasionally breaks blockquote styling.</span>
-              </li>
-            </ul>
+            <p class="app-desc">Still under development</p>
           </div>
-
-          <div class="issue-card">
-            <div class="issue-card-header">
-              <div class="issue-app-icon">🎨</div>
-              <span class="issue-app-name">FleurDraw</span>
-              <span class="issue-status-pill">In Progress</span>
-            </div>
-            <ul class="issue-list">
-              <li>
-                <div class="issue-bullet"></div>
-                <span>Pen stroke latency under high load conditions.</span>
-              </li>
-              <li>
-                <div class="issue-bullet"></div>
-                <span>SVG imports rendering with incorrect stroke alignment.</span>
-              </li>
-            </ul>
-          </div>
+          <div class="app-meta"><span class="chip">🪟 Windows</span></div>
+          <a href="#" class="dl-btn">Coming Soon</a>
         </div>
 
-        <div class="notice-card reveal">
-          <div class="notice-card-header">
-            <span>💡 Important Notice</span>
-          </div>
-          <div class="notice-body">
-            <div class="notice-item">
-              <strong>SmartScreen warnings:</strong> Because FleurSuite is signed by an independent creator certificate, Windows SmartScreen may show warning signs during installation. You can bypass this securely via "More info" &gt; "Run anyway".
+        <div class="app-card soon">
+          <div class="app-icon">📖</div>
+          <div>
+            <div class="app-name" style="gap:8px;flex-wrap:wrap;">
+              <span style="display:flex;align-items:baseline;gap:2px"><span class="an-s">Fleur</span><span class="an-u">Books</span></span>
+              <span class="soon-pill">Coming Soon</span>
             </div>
+            <p class="app-desc">Still under development</p>
           </div>
-        </div>
-
-        <div class="support-row reveal">
-          <div class="support-text">
-            Need support or have requests? Join the discussion on our channels or log issues on <strong>GitHub</strong>.
-          </div>
-          <div class="support-links">
-            <a href="https://github.com" target="_blank" class="support-link">GitHub Issues</a>
-            <a href="mailto:support@fleursuite.com" class="support-link">Email Support</a>
-          </div>
+          <div class="app-meta"><span class="chip">🪟 Windows</span></div>
+          <a href="#" class="dl-btn">Coming Soon</a>
         </div>
       </div>
     </section>
+    
+    <div class="divider"><span>Known Issues</span></div>
+
+    <div class="issues-band" id="issues">
+      <div class="issues-inner">
+
+        <div class="issues-header reveal">
+          <div class="section-eyebrow">Apologies</div>
+          <p>Being a solo project, FleurSuite apps may have small rough edges. I'm actively working through them — if something's disrupting your workflow, don't hesitate to reach out.</p>
+        </div>
+
+        <div class="issues-grid stagger">
+
+          <!-- FleurNotes issues card -->
+          <div class="issue-card">
+            <div class="issue-card-header">
+              <div class="issue-app-icon">📝</div>
+              <div class="issue-app-name">FleurNotes</div>
+              <span class="issue-status-pill">In Progress</span>
+            </div>
+            <ul class="issue-list">
+              <li><span class="issue-bullet"></span>Ctrl+F search highlight doesn't clear fully after closing</li>
+              <li><span class="issue-bullet"></span>Dragging notes between folders can feel finicky</li>
+              <li><span class="issue-bullet"></span>Version history occasionally doesn't update as expected</li>
+              <li><span class="issue-bullet"></span>Highlight and text-color popups have awkward interactions</li>
+              <li><span class="issue-bullet"></span>More fixes happening behind the scenes too</li>
+            </ul>
+          </div>
+
+          <!-- Important / notice card -->
+          <div class="notice-card">
+            <div class="notice-card-header">
+              <span>📌</span>
+              <span>Important to know</span>
+            </div>
+            <div class="notice-body">
+              <p class="notice-item">This is a <strong>beta, solo-built app</strong> — bugs come with the territory. I appreciate your patience while I work through them.</p>
+              <p class="notice-item">On install, Windows may show an <strong>"Unknown Publisher"</strong> pop-up. This is normal. Removing it requires an OV code-signing certificate, which I'm saving up for while paying off college. It'll go away eventually! 🙂</p>
+              <p class="notice-item">If you know of <strong>affordable ways to host apps with live updates</strong>, I'd genuinely love to hear about it.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Support row -->
+        <div class="support-row reveal">
+          <div class="support-text">
+            <strong>FleurSuite will always be free.</strong> But if you'd like to support the work (and help me buy that code-signing cert), it means the world. 💐
+          </div>
+          <div class="support-links">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=FleurSuiteContact@gmail.com" target="_blank" class="support-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contact
+            </a>
+            <a href="https://cash.app/$MarktFlowers" target="_blank" class="support-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              Cash App
+            </a>
+            <a href="https://paypal.me/marktflowers" target="_blank" class="support-link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              PayPal
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <div class="fb-wm"><span class="fb-s">Fleur</span><span class="fb-u">Suite</span></div>
+          <div class="fb-sub">Quietly useful. Beautifully made.</div>
+        </div>
+        <div class="fcol">
+          <div class="fcol-title">Apps</div>
+          <a href="#">FleurNotes</a>
+          <a href="#">FleurCalendar</a>
+          <a href="#">FleurBooks</a>
+        </div>
+        <div class="fcol">
+          <div class="fcol-title">Links</div>
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=FleurSuiteContact@gmail.com" target="_blank">Contact</a>
+          <a href="https://x.com/FleurSuite" target="_blank">X</a>
+          <a href="https://www.instagram.com/fleursuite/" target="_blank">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 FleurSuite</span>
+        <span>Made with ♥ and attention to detail.</span>
+      </div>
+    </footer>
+
   </main>
 
-  <!-- ── FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="fcol">
-        <div class="fb-wm">
-          <span class="fb-s">Fleur</span><span class="fb-u">Suite</span>
-        </div>
-        <p class="fb-sub">Elegant Windows layout software utilities.</p>
-      </div>
-      <div class="fcol">
-        <span class="fcol-title">Downloads</span>
-        <a href="#apps">FleurNotes</a>
-        <a href="#apps">FleurDraw</a>
-      </div>
-      <div class="fcol">
-        <span class="fcol-title">Community</span>
-        <a href="https://github.com" target="_blank">GitHub</a>
-        <a href="#">Discord Server</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 FleurSuite. Built with love for Windows.</span>
-    </div>
-  </footer>
-
-  <!-- ── SCRIPTS -->
   <script>
-    // 1. DYNAMIC SYSTEM WINDOWS MOCKUP SVGS (fallback for images)
-    function getMockupSVG(accentColor, title, text) {
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="100%" height="100%" style="border-radius:18px;">
-        <rect width="100%" height="100%" fill="var(--bg-window)" />
-        <!-- App Titlebar -->
-        <rect x="0" y="0" width="720" height="42" fill="var(--bg-toolbar)" />
-        <circle cx="20" cy="21" r="5" fill="#ef4444" />
-        <circle cx="36" cy="21" r="5" fill="#f59e0b" />
-        <circle cx="52" cy="21" r="5" fill="#10b981" />
-        <text x="360" y="26" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-strong)" font-weight="600" text-anchor="middle">FleurNotes - Drafts</text>
-        
-        <!-- Sidebar -->
-        <rect x="0" y="42" width="200" height="408" fill="var(--bg-sidebar)" />
-        <rect x="12" y="60" width="176" height="30" rx="6" fill="${accentColor}" opacity="0.15" />
-        <text x="32" y="80" font-family="'Segoe UI', sans-serif" font-size="12" fill="${accentColor}" font-weight="bold">💐 All Notes</text>
-        <text x="32" y="122" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-secondary)">⚡ Quick Ideas</text>
-        <text x="32" y="164" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-secondary)">📝 Daily Journal</text>
-        <text x="32" y="206" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-secondary)">⚙️ Configuration</text>
+    /* ── Theme toggle ── */
+    const html = document.documentElement;
+    const applyTheme = t => {
+      html.setAttribute('data-theme', t);
+      localStorage.setItem('fleur-theme', t);
+      document.getElementById('icon-sun').style.display  = t === 'dark'  ? 'block' : 'none';
+      document.getElementById('icon-moon').style.display = t === 'light' ? 'block' : 'none';
+    };
+    applyTheme(localStorage.getItem('fleur-theme') || 'light');
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
 
-        <!-- Main Workspace -->
-        <rect x="200" y="42" width="520" height="408" fill="var(--bg-surface)" />
-        <text x="232" y="96" font-family="'Segoe Script', cursive" font-size="28" font-weight="bold" fill="var(--text-strong)">${title}</text>
-        <text x="232" y="136" font-family="'Segoe UI', sans-serif" font-size="14" fill="var(--text-secondary)" font-weight="300">${text}</text>
-        
-        <rect x="232" y="170" width="456" height="1" fill="var(--border-md)" />
+    /* ── Scroll reveal ── */
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
+      { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
+    );
+    document.querySelectorAll('.reveal, .stagger').forEach(el => obs.observe(el));
 
-        <!-- Mock Content editor block -->
-        <rect x="232" y="195" width="456" height="15" rx="3" fill="var(--bg-window)" />
-        <rect x="232" y="222" width="380" height="15" rx="3" fill="var(--bg-window)" />
-        <rect x="232" y="249" width="410" height="15" rx="3" fill="var(--bg-window)" />
-
-        <rect x="232" y="290" width="12" height="12" rx="3" fill="${accentColor}" />
-        <text x="254" y="301" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-strong)" font-weight="bold">System accent synchronized successfully</text>
-        <rect x="232" y="320" width="12" height="12" rx="3" fill="${accentColor}" />
-        <text x="254" y="331" font-family="'Segoe UI', sans-serif" font-size="12" fill="var(--text-strong)" font-weight="bold">Hardware GPU acceleration active</text>
-      </svg>`;
-    }
-
-    // 2. STICKY SCROLL ZOOM & SEAMLESS CAROUSEL ACTIVATION
-    const scrollZoneWrapper = document.getElementById('scrollZoneWrapper');
-    const scrollZoneSticky = document.getElementById('scrollZoneSticky');
-    const carouselFrame = document.getElementById('carouselFrame');
-    const carouselControls = document.getElementById('carouselControls');
+    /* ── SCROLL ZOOM ─────────────────────────────────────────────────
+       Phase 1: image starts at 50% wide, zooms to ~72% over first
+                half of the scroll zone, pill text changes.
+       Phase 2: scroll hint fades; pill swaps to "Or any color…"
+    ── */
+    const wrapper   = document.getElementById('scrollZoneWrapper');
+    const screenshot = document.getElementById('scrollScreenshot');
+    const pill       = document.getElementById('scrollPill');
     const scrollHint = document.getElementById('scrollHint');
-    const scrollPill = document.getElementById('scrollPill');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
 
-    // Slide state tracking
-    let activeIdx = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const pills = document.querySelectorAll('.cpill');
-    const dots = document.querySelectorAll('.carousel-dot');
+    const START_SCALE = 1;        // maps to width:50% (set by CSS)
+    const END_SCALE   = 1.44;     // zooms to ~72% effective width
 
-    window.addEventListener('scroll', handleMorphScroll);
-    window.addEventListener('resize', handleMorphScroll);
+    function lerp(a, b, t) { return a + (b - a) * Math.clamp(t, 0, 1); }
+    Math.clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
-    function handleMorphScroll() {
-      const rect = scrollZoneWrapper.getBoundingClientRect();
-      const viewHeight = window.innerHeight;
-      const totalScrollable = rect.height - viewHeight;
+    let pillPhase = 0; // 0 = windows accent, 1 = or any color
 
-      // Calculate progress between 0 and 1
-      let progress = -rect.top / totalScrollable;
-      progress = Math.min(Math.max(progress, 0), 1);
+    function onScroll() {
+      const rect     = wrapper.getBoundingClientRect();
+      const total    = wrapper.offsetHeight - window.innerHeight;
+      const scrolled = -rect.top; // how far we've scrolled into the zone
+      const progress = Math.clamp(scrolled / total, 0, 1);
 
-      // 1. Transform the frame (Scale goes from 0.72 up to 1.0, centers itself perfectly)
-      const scaleVal = 0.76 + (0.24 * progress);
-      const translateYVal = 40 * (1 - progress); 
-      carouselFrame.style.transform = `translateY(${translateYVal}px) scale(${scaleVal})`;
+      // Scale: 0→0.6 of scroll = grow image
+      const zoomProgress = Math.clamp(progress / 0.6, 0, 1);
+      const scale = lerp(START_SCALE, END_SCALE, easeOut(zoomProgress));
+      screenshot.style.transform = `scale(${scale})`;
 
-      // 2. Controls & Arrows Fade up at the end of the scroll (starts at 65% scroll progress)
-      let controlsOpacity = 0;
-      if (progress > 0.65) {
-        controlsOpacity = (progress - 0.65) / 0.35;
-      }
-      carouselControls.style.opacity = controlsOpacity;
-      prevBtn.style.opacity = controlsOpacity;
-      nextBtn.style.opacity = controlsOpacity;
+      // Hint fades out quickly
+      scrollHint.style.opacity = Math.clamp(1 - progress * 8, 0, 1);
 
-      // 3. Fade out the original Scroll Indicator and Hint
-      scrollHint.style.opacity = Math.max(0, 1 - progress * 4);
-
-      // 4. Enable/Disable interaction with the carousel
-      if (progress >= 0.95) {
-        carouselControls.style.pointerEvents = 'auto';
-        prevBtn.style.pointerEvents = 'auto';
-        nextBtn.style.pointerEvents = 'auto';
-        scrollZoneSticky.style.pointerEvents = 'auto';
-      } else {
-        carouselControls.style.pointerEvents = 'none';
-        prevBtn.style.pointerEvents = 'none';
-        nextBtn.style.pointerEvents = 'none';
-        
-        // Force slide back to 0 if they scroll back up, giving a clean reset feel
-        if (activeIdx !== 0) {
-          goToSlide(0);
-        }
+      // Pill phase swap at 40% scroll
+      if (progress >= 0.4 && pillPhase === 0) {
+        pillPhase = 1;
+        pill.style.opacity = '0';
+        pill.style.transform = 'translateY(8px)';
+        setTimeout(() => {
+          pill.innerHTML = '<span style="font-size:1.1em">💐</span> Or any color you choose.';
+          pill.style.opacity = '1';
+          pill.style.transform = 'translateY(0)';
+        }, 300);
+      } else if (progress < 0.4 && pillPhase === 1) {
+        pillPhase = 0;
+        pill.style.opacity = '0';
+        pill.style.transform = 'translateY(8px)';
+        setTimeout(() => {
+          pill.innerHTML = '<span class="dot" style="background:linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99);width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0"></span> Your Own Windows Accent Color';
+          pill.style.opacity = '1';
+          pill.style.transform = 'translateY(0)';
+        }, 300);
       }
     }
 
-    // 3. CAROUSEL ENGINE (Interactive slide transitions)
-    function goToSlide(idx) {
-      if (idx < 0) idx = slides.length - 1;
-      if (idx >= slides.length) idx = 0;
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
-      slides.forEach((slide) => {
-        slide.classList.remove('active', 'exit-left', 'enter-right');
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // run once on load
+
+    /* ── CAROUSEL ─────────────────────────────────────────────────── */
+    const slides     = Array.from(document.querySelectorAll('.carousel-slide'));
+    const pills      = Array.from(document.querySelectorAll('.cpill'));
+    const dotsEl     = document.getElementById('carouselDots');
+    const prevBtn    = document.getElementById('carouselPrev');
+    const nextBtn    = document.getElementById('carouselNext');
+    let current      = 0;
+    let animating    = false;
+
+    // Build dots
+    slides.forEach((_, i) => {
+      const d = document.createElement('button');
+      d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      d.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(d);
+    });
+
+    function goTo(idx) {
+      if (animating || idx === current) return;
+      animating = true;
+      const direction = idx > current ? 1 : -1;
+      const outSlide  = slides[current];
+      const inSlide   = slides[idx];
+
+      outSlide.classList.add(direction > 0 ? 'exit-left' : 'exit-right');
+
+      // set incoming starting position
+      inSlide.style.transform = `translateX(${direction * 40}px) scale(0.97)`;
+      inSlide.style.opacity   = '0';
+      inSlide.style.position  = 'absolute';
+      inSlide.style.top       = '0';
+      inSlide.style.left      = '0';
+      inSlide.style.width     = '100%';
+
+      // Force reflow
+      inSlide.getBoundingClientRect();
+
+      inSlide.style.transition = 'opacity 0.45s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)';
+      inSlide.style.opacity    = '1';
+      inSlide.style.transform  = 'translateX(0) scale(1)';
+
+      setTimeout(() => {
+        outSlide.classList.remove('active', 'exit-left', 'exit-right');
+        outSlide.style.position = '';
+        inSlide.classList.add('active');
+        inSlide.style.position  = 'relative';
+        inSlide.style.transition = '';
+        animating = false;
+      }, 460);
+
+      // Update pill/dot state
+      pills[current].classList.remove('active');
+      pills[idx].classList.add('active');
+      dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
       });
 
-      slides.forEach((slide) => {
-        const slideIdx = parseInt(slide.dataset.idx);
-        if (slideIdx === idx) {
-          slide.classList.add('active');
-        } else if (slideIdx < idx) {
-          slide.classList.add('exit-left');
-        } else {
-          slide.classList.add('enter-right');
-        }
-      });
-
-      // Update interactive control pills and dots
-      pills.forEach(p => p.classList.remove('active'));
-      const activePill = document.querySelector(`.cpill[data-idx="${idx}"]`);
-      if (activePill) activePill.classList.add('active');
-
-      dots.forEach(d => d.classList.remove('active'));
-      const activeDot = document.querySelector(`.carousel-dot[data-idx="${idx}"]`);
-      if (activeDot) activeDot.classList.add('active');
-
-      updateAccentPill(idx);
-      activeIdx = idx;
+      current = idx;
     }
 
-    // Dynamic accent label values inside the carousel morpher
-    function updateAccentPill(idx) {
-      const pillColors = ['#b5a898', '#4caf7d', '#9575cd', '#e57373', '#5b9bd5', '#7f7f7f'];
-      const pillTexts = [
-        'Warm Tan Accent Theme',
-        'Sage Green Accent Theme',
-        'Lavender Accent Theme',
-        'Rose Red Accent Theme',
-        'Sky Blue Accent Theme',
-        'Monochrome Theme'
-      ];
-      
-      const pillDot = scrollPill.querySelector('.dot');
-      const pillText = document.getElementById('pillText');
-      
-      pillDot.style.background = pillColors[idx];
-      pillText.textContent = pillTexts[idx];
-    }
+    prevBtn.addEventListener('click', () => goTo((current - 1 + slides.length) % slides.length));
+    nextBtn.addEventListener('click', () => goTo((current + 1) % slides.length));
 
-    // Bind navigation events
-    prevBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      goToSlide(activeIdx - 1);
-    });
-    
-    nextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      goToSlide(activeIdx + 1);
+    pills.forEach(p => {
+      p.addEventListener('click', () => goTo(parseInt(p.dataset.idx)));
     });
 
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        goToSlide(parseInt(pill.dataset.idx));
-      });
+    // Auto-advance every 5s
+    let autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
+    document.getElementById('carouselTrack').addEventListener('mouseenter', () => clearInterval(autoTimer));
+    document.getElementById('carouselTrack').addEventListener('mouseleave', () => {
+      autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
     });
 
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        goToSlide(parseInt(dot.dataset.idx));
-      });
-    });
-
-    // Touch support (Swiping on slides transitions the carousel)
+    // Touch swipe support
     let touchStartX = 0;
-    let touchEndX = 0;
-    
-    carouselFrame.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
+    const track = document.getElementById('carouselTrack');
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) goTo(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
     }, { passive: true });
-
-    carouselFrame.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-      // Guard to only allow swiping if scrolled all the way down to carousel phase
-      const rect = scrollZoneWrapper.getBoundingClientRect();
-      const totalScrollable = rect.height - window.innerHeight;
-      if (-rect.top < totalScrollable * 0.9) return;
-
-      if (touchEndX < touchStartX - 50) {
-        goToSlide(activeIdx + 1); // Swipe left -> Next
-      }
-      if (touchEndX > touchStartX + 50) {
-        goToSlide(activeIdx - 1); // Swipe right -> Prev
-      }
-    }
-
-    // 4. THEME CONTROLLER (Light & Dark settings)
-    const themeToggle = document.getElementById('themeToggle');
-    const iconMoon = document.getElementById('icon-moon');
-    const iconSun = document.getElementById('icon-sun');
-
-    themeToggle.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      
-      if (newTheme === 'dark') {
-        iconMoon.style.display = 'none';
-        iconSun.style.display = 'block';
-      } else {
-        iconMoon.style.display = 'block';
-        iconSun.style.display = 'none';
-      }
-    });
-
-    // 5. ENHANCE VISIBILITY OBSERVER (Trigger CSS scroll animations)
-    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
-
-    // Initialize initial frame dimensions accurately
-    handleMorphScroll();
   </script>
 </body>
 </html>
