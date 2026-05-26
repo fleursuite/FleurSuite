@@ -224,18 +224,6 @@
       flex-shrink: 0;
     }
 
-    /* The main screenshot image in scroll zone */
-    .scroll-screenshot {
-      width: 50%;
-      max-width: 700px;
-      border-radius: 18px;
-      box-shadow: var(--shadow-window);
-      transform-origin: center center;
-      transition: transform 0.05s linear, opacity 0.2s ease-out; /* MODIFIED: Opacity transition added */
-      will-change: transform, opacity;
-      display: block;
-    }
-
     /* Scroll hint arrow */
     .scroll-hint {
       position: absolute;
@@ -267,7 +255,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 56px 24px 72px;
+      padding: 24px 24px 32px;
       gap: 22px;
     }
 
@@ -276,7 +264,6 @@
       color: var(--text-secondary);
       font-weight: 300;
       text-align: center;
-      animation: fadeUp 0.6s var(--smooth) both;
     }
     .carousel-label em {
       font-style: normal;
@@ -320,13 +307,16 @@
     [data-theme="dark"] .cpill-blue   { background: #1a2436; color: #7aaad4; }
     [data-theme="dark"] .cpill-mono   { background: #222120; color: #a09890; }
 
+    /* MODIFIED: Carousel frame starts at 50% width and scales beautifully inside the sticky wrapper */
     .carousel-frame {
       position: relative;
-      width: 100%;
+      width: 50%;
       max-width: 700px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transform-origin: center center;
+      will-change: transform;
     }
 
     .carousel-track {
@@ -383,10 +373,12 @@
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       color: var(--text-secondary);
-      transition: transform 0.2s var(--spring), background 0.15s, color 0.15s;
-      z-index: 2;
+      transition: transform 0.2s var(--spring), background 0.15s, color 0.15s, opacity 0.3s var(--smooth);
+      z-index: 10;
+      opacity: 0; /* MODIFIED: Hidden initially, faded in at scroll transition end */
+      pointer-events: none;
     }
-    .carousel-arrow:hover { transform: translateY(-50%) scale(1.1); background: var(--accent); color: white; }
+    .carousel-arrow:hover { transform: translateY(-50%) scale(1.1); background: var(--accent); color: white; border-color: var(--accent); }
     .carousel-arrow.prev { left: -48px; }
     .carousel-arrow.next { right: -48px; }
 
@@ -686,7 +678,7 @@
       .win-sidebar { display: none; }
       .hero { padding: 48px 16px 60px; }
       .section { padding: 56px 16px; }
-      .scroll-screenshot { width: 82%; }
+      .carousel-frame { width: 82%; } /* Keeps responsive sizes matches */
       .carousel-arrow.prev { left: -18px; }
       .carousel-arrow.next { right: -18px; }
       .carousel-arrow { width: 30px; height: 30px; }
@@ -744,12 +736,74 @@
             Your Own Windows Accent Color
           </div>
 
-          <img
-            src="FleurScreenShot.png"
-            class="scroll-screenshot"
-            id="scrollScreenshot"
-            alt="FleurNotes screenshot"
-          />
+          <!-- MODIFIED: The unified carousel frame itself scales seamlessly directly inside the zoom stage -->
+          <div class="carousel-frame" id="carouselFrame">
+            <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide active" data-idx="0">
+                <img src="FleurScreenShot.png" alt="FleurNotes – Warm Tan theme" />
+              </div>
+              <div class="carousel-slide" data-idx="1">
+                <img src="FleurNotesGreen.png" alt="FleurNotes – Sage Green theme" />
+              </div>
+              <div class="carousel-slide" data-idx="2">
+                <img src="FleurNotesPurple.png" alt="FleurNotes – Lavender theme" />
+              </div>
+              <div class="carousel-slide" data-idx="3">
+                <img src="FleurNotesRed.png" alt="FleurNotes – Rose Red theme" />
+              </div>
+              <div class="carousel-slide" data-idx="4">
+                <img src="FleurNotesBlue.png" alt="FleurNotes – Sky Blue theme" />
+              </div>
+              <div class="carousel-slide" data-idx="5">
+                <img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome theme" />
+              </div>
+            </div>
+
+            <button class="carousel-arrow next" id="carouselNext" aria-label="Next">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+          <!-- MODIFIED: Selector controls are inside the sticky section, elegantly fading in at end of scroll -->
+          <div class="carousel-section" id="carouselSection" style="opacity: 0; pointer-events: none; transition: opacity 0.4s ease-out;">
+            <div class="carousel-label">
+              <em>Or any color you choose.</em> 💐
+            </div>
+
+            <!-- pill row -->
+            <div class="carousel-pill-row" id="pillRow">
+              <button class="cpill cpill-tan active" data-idx="0">
+                <span style="width:8px;height:8px;border-radius:50%;background:#b5a898;display:inline-block;"></span>
+                Warm Tan
+              </button>
+              <button class="cpill cpill-green" data-idx="1">
+                <span style="width:8px;height:8px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>
+                Sage Green
+              </button>
+              <button class="cpill cpill-purple" data-idx="2">
+                <span style="width:8px;height:8px;border-radius:50%;background:#9575cd;display:inline-block;"></span>
+                Lavender
+              </button>
+              <button class="cpill cpill-red" data-idx="3">
+                <span style="width:8px;height:8px;border-radius:50%;background:#e57373;display:inline-block;"></span>
+                Rose Red
+              </button>
+              <button class="cpill cpill-blue" data-idx="4">
+                <span style="width:8px;height:8px;border-radius:50%;background:#5b9bd5;display:inline-block;"></span>
+                Sky Blue
+              </button>
+              <button class="cpill cpill-mono" data-idx="5">
+                <span style="width:8px;height:8px;border-radius:50%;background:#888888;display:inline-block;"></span>
+                Monochrome
+              </button>
+            </div>
+
+            <div class="carousel-dots" id="carouselDots"></div>
+          </div>
 
           <div class="scroll-hint" id="scrollHint">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
@@ -757,75 +811,6 @@
           </div>
 
         </div>
-      </div>
-
-      <!-- Phase 2: carousel -->
-      <div class="carousel-section reveal" id="carouselSection">
-        <div class="carousel-label">
-          <em>Or any color you choose.</em> 💐
-        </div>
-
-        <!-- pill row -->
-        <div class="carousel-pill-row" id="pillRow">
-          <button class="cpill cpill-tan active" data-idx="0">
-            <span style="width:8px;height:8px;border-radius:50%;background:#b5a898;display:inline-block;"></span>
-            Warm Tan
-          </button>
-          <button class="cpill cpill-green" data-idx="1">
-            <span style="width:8px;height:8px;border-radius:50%;background:#4caf7d;display:inline-block;"></span>
-            Sage Green
-          </button>
-          <button class="cpill cpill-purple" data-idx="2">
-            <span style="width:8px;height:8px;border-radius:50%;background:#9575cd;display:inline-block;"></span>
-            Lavender
-          </button>
-          <button class="cpill cpill-red" data-idx="3">
-            <span style="width:8px;height:8px;border-radius:50%;background:#e57373;display:inline-block;"></span>
-            Rose Red
-          </button>
-          <button class="cpill cpill-blue" data-idx="4">
-            <span style="width:8px;height:8px;border-radius:50%;background:#5b9bd5;display:inline-block;"></span>
-            Sky Blue
-          </button>
-          <button class="cpill cpill-mono" data-idx="5">
-            <span style="width:8px;height:8px;border-radius:50%;background:#888888;display:inline-block;"></span>
-            Monochrome
-          </button>
-        </div>
-
-        <!-- carousel frame -->
-        <div class="carousel-frame">
-          <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-
-          <div class="carousel-track" id="carouselTrack">
-            <div class="carousel-slide active" data-idx="0">
-              <img src="FleurScreenShot.png" alt="FleurNotes – Warm Tan theme" />
-            </div>
-            <div class="carousel-slide" data-idx="1">
-              <img src="FleurNotesGreen.png" alt="FleurNotes – Sage Green theme" />
-            </div>
-            <div class="carousel-slide" data-idx="2">
-              <img src="FleurNotesPurple.png" alt="FleurNotes – Lavender theme" />
-            </div>
-            <div class="carousel-slide" data-idx="3">
-              <img src="FleurNotesRed.png" alt="FleurNotes – Rose Red theme" />
-            </div>
-            <div class="carousel-slide" data-idx="4">
-              <img src="FleurNotesBlue.png" alt="FleurNotes – Sky Blue theme" />
-            </div>
-            <div class="carousel-slide" data-idx="5">
-              <img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome theme" />
-            </div>
-          </div>
-
-          <button class="carousel-arrow next" id="carouselNext" aria-label="Next">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-        </div>
-
-        <div class="carousel-dots" id="carouselDots"></div>
       </div>
     </div>
 
@@ -1027,7 +1012,8 @@
        Phase 2: scroll hint fades; pill swaps to "Or any color…"
     ── */
     const wrapper   = document.getElementById('scrollZoneWrapper');
-    const screenshot = document.getElementById('scrollScreenshot');
+    const carouselFrame = document.getElementById('carouselFrame'); // MODIFIED: Target carouselFrame directly
+    const carouselSection = document.getElementById('carouselSection'); // Target selectors container
     const pill       = document.getElementById('scrollPill');
     const scrollHint = document.getElementById('scrollHint');
 
@@ -1045,21 +1031,24 @@
       const scrolled = -rect.top; // how far we've scrolled into the zone
       const progress = Math.clamp(scrolled / total, 0, 1);
 
-      // Scale: 0→0.6 of scroll = grow image
-      const zoomProgress = Math.clamp(progress / 0.6, 0, 1);
+      // Scale: 0→0.8 of scroll = grow mockup carousel frame dynamically
+      const zoomProgress = Math.clamp(progress / 0.8, 0, 1);
       const scale = lerp(START_SCALE, END_SCALE, easeOut(zoomProgress));
-      screenshot.style.transform = `scale(${scale})`;
+      carouselFrame.style.transform = `scale(${scale})`;
 
       // Hint fades out quickly
       scrollHint.style.opacity = Math.clamp(1 - progress * 8, 0, 1);
 
-      // MODIFIED: Elegant opacity fadeout transition at the very end of scroll (from 0.85 to 1.0 progress)
-      if (progress > 0.85) {
-        const fadeOutProgress = (1 - progress) / 0.15;
-        screenshot.style.opacity = Math.max(0, fadeOutProgress);
-      } else {
-        screenshot.style.opacity = 1;
-      }
+      // MODIFIED: Elegant opacity fade-in transition of controls and arrows (from 0.8 to 1.0 progress)
+      const controlsProgress = Math.clamp((progress - 0.8) / 0.2, 0, 1);
+      carouselSection.style.opacity = controlsProgress;
+      carouselSection.style.pointerEvents = controlsProgress > 0.5 ? 'auto' : 'none';
+      
+      prevBtn.style.opacity = controlsProgress;
+      prevBtn.style.pointerEvents = controlsProgress > 0.5 ? 'auto' : 'none';
+      
+      nextBtn.style.opacity = controlsProgress;
+      nextBtn.style.pointerEvents = controlsProgress > 0.5 ? 'auto' : 'none';
 
       // Pill phase swap at 40% scroll
       if (progress >= 0.4 && pillPhase === 0) {
@@ -1162,11 +1151,30 @@
       p.addEventListener('click', () => goTo(parseInt(p.dataset.idx)));
     });
 
-    // Auto-advance every 5s
-    let autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
+    // MODIFIED: Auto-advance only active when user has fully zoomed into the interactive phase
+    let autoTimer = setInterval(() => {
+      const rect     = wrapper.getBoundingClientRect();
+      const total    = wrapper.offsetHeight - window.innerHeight;
+      const scrolled = -rect.top;
+      const progress = Math.clamp(scrolled / total, 0, 1);
+      
+      if (progress > 0.8) {
+        goTo((current + 1) % slides.length);
+      }
+    }, 5000);
+
     document.getElementById('carouselTrack').addEventListener('mouseenter', () => clearInterval(autoTimer));
     document.getElementById('carouselTrack').addEventListener('mouseleave', () => {
-      autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
+      autoTimer = setInterval(() => {
+        const rect     = wrapper.getBoundingClientRect();
+        const total    = wrapper.offsetHeight - window.innerHeight;
+        const scrolled = -rect.top;
+        const progress = Math.clamp(scrolled / total, 0, 1);
+        
+        if (progress > 0.8) {
+          goTo((current + 1) % slides.length);
+        }
+      }, 5000);
     });
 
     // Touch swipe support
