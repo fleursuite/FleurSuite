@@ -257,6 +257,8 @@
       align-items: center;
       padding: 24px 24px 32px;
       gap: 22px;
+      position: relative; /* MODIFIED: Set position relative for Z-indexing */
+      z-index: 15; /* MODIFIED: Set Z-index to load ON TOP of scaled image */
     }
 
     .carousel-label {
@@ -986,6 +988,19 @@
   </main>
 
   <script>
+    /* ── DOM REFERENCE DECLARATIONS (Hoisted to prevent ReferenceErrors) ── */
+    const wrapper   = document.getElementById('scrollZoneWrapper');
+    const carouselFrame = document.getElementById('carouselFrame'); 
+    const carouselSection = document.getElementById('carouselSection'); 
+    const pill       = document.getElementById('scrollPill');
+    const scrollHint = document.getElementById('scrollHint');
+    
+    const slides     = Array.from(document.querySelectorAll('.carousel-slide'));
+    const pills      = Array.from(document.querySelectorAll('.cpill'));
+    const dotsEl     = document.getElementById('carouselDots');
+    const prevBtn    = document.getElementById('carouselPrev');
+    const nextBtn    = document.getElementById('carouselNext');
+
     /* ── Theme toggle ── */
     const html = document.documentElement;
     const applyTheme = t => {
@@ -1011,12 +1026,6 @@
                 half of the scroll zone, pill text changes.
        Phase 2: scroll hint fades; pill swaps to "Or any color…"
     ── */
-    const wrapper   = document.getElementById('scrollZoneWrapper');
-    const carouselFrame = document.getElementById('carouselFrame'); // MODIFIED: Target carouselFrame directly
-    const carouselSection = document.getElementById('carouselSection'); // Target selectors container
-    const pill       = document.getElementById('scrollPill');
-    const scrollHint = document.getElementById('scrollHint');
-
     const START_SCALE = 1;        // maps to width:50% (set by CSS)
     const END_SCALE   = 1.44;     // zooms to ~72% effective width
 
@@ -1039,7 +1048,7 @@
       // Hint fades out quickly
       scrollHint.style.opacity = Math.clamp(1 - progress * 8, 0, 1);
 
-      // MODIFIED: Elegant opacity fade-in transition of controls and arrows (from 0.8 to 1.0 progress)
+      // Elegant opacity fade-in transition of controls and arrows (from 0.8 to 1.0 progress)
       const controlsProgress = Math.clamp((progress - 0.8) / 0.2, 0, 1);
       carouselSection.style.opacity = controlsProgress;
       carouselSection.style.pointerEvents = controlsProgress > 0.5 ? 'auto' : 'none';
@@ -1078,11 +1087,6 @@
     onScroll(); // run once on load
 
     /* ── CAROUSEL ─────────────────────────────────────────────────── */
-    const slides     = Array.from(document.querySelectorAll('.carousel-slide'));
-    const pills      = Array.from(document.querySelectorAll('.cpill'));
-    const dotsEl     = document.getElementById('carouselDots');
-    const prevBtn    = document.getElementById('carouselPrev');
-    const nextBtn    = document.getElementById('carouselNext');
     let current      = 0;
     let animating    = false;
 
@@ -1095,7 +1099,7 @@
       dotsEl.appendChild(d);
     });
 
-    // MODIFIED: Optimized slide transitioning to clean up layered slides and handle backwards directions perfectly
+    // Optimized slide transitioning to clean up layered slides and handle backwards directions perfectly
     function goTo(idx) {
       if (animating || idx === current) return;
       animating = true;
@@ -1151,7 +1155,7 @@
       p.addEventListener('click', () => goTo(parseInt(p.dataset.idx)));
     });
 
-    // MODIFIED: Auto-advance only active when user has fully zoomed into the interactive phase
+    // Auto-advance only active when user has fully zoomed into the interactive phase
     let autoTimer = setInterval(() => {
       const rect     = wrapper.getBoundingClientRect();
       const total    = wrapper.offsetHeight - window.innerHeight;
