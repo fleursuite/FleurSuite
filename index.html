@@ -106,6 +106,20 @@
       justify-content: center;
       overflow: hidden;
       gap: 0;
+      /* The sticky child layout is:
+         [zoom-controls]  — above image, fixed height
+         [zoom-frame]     — image, scales outward
+         [carousel-dots]  — below image, fixed height
+         Everything is positioned via a centering wrapper so
+         the whole block stays truly vertically centred. */
+    }
+
+    /* Wrapper that holds frame + dots as one unit for centering */
+    .zoom-image-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0; /* dots are given their own margin-top */
     }
 
     /* ── TOP CONTROLS BLOCK
@@ -181,12 +195,14 @@
     [data-theme="dark"] .cpill-blue   { background: #1a2436; color: #7aaad4; }
     [data-theme="dark"] .cpill-mono   { background: #222120; color: #a09890; }
 
-    /* ── SCREENSHOT / CAROUSEL FRAME */
+    /* ── SCREENSHOT / CAROUSEL FRAME
+       Only contains the image track + arrows.
+       Dots live OUTSIDE this element so they aren't scaled. */
     .zoom-frame {
       position: relative;
       width: 50%;
       max-width: 700px;
-      transform-origin: center top; /* scale from top so controls don't get pushed */
+      transform-origin: center center;
       will-change: transform;
     }
 
@@ -236,12 +252,10 @@
     .carousel-arrow.next { right: -52px; }
     .carousel-arrow.visible { opacity: 1; pointer-events: auto; }
 
-    /* dots */
-    .carousel-dots { display: flex; gap: 7px; margin-top: 14px; justify-content: center; opacity: 0; transition: opacity 0.4s var(--smooth); }
-    .carousel-dots.visible { opacity: 1; }
+    /* dots — live outside the scaling frame so they don't zoom */
+    .carousel-dots { display: flex; gap: 7px; margin-top: 14px; justify-content: center; opacity: 0; transition: opacity 0.4s var(--smooth); flex-shrink: 0; }
     .carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-mid); cursor: pointer; transition: transform 0.22s var(--spring), background 0.2s; border: none; }
     .carousel-dot.active { background: var(--accent); transform: scale(1.3); }
-
     /* scroll hint */
     .scroll-hint {
       position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -434,30 +448,35 @@
 
         </div>
 
-        <!-- 2. Screenshot frame (scales on scroll) -->
-        <div class="zoom-frame" id="zoomFrame">
+        <!-- 2. Image group: frame + dots together, centered as one unit -->
+        <div class="zoom-image-group">
 
-          <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
+          <!-- Screenshot frame (only this element scales on scroll) -->
+          <div class="zoom-frame" id="zoomFrame">
 
-          <div id="carouselTrack">
-            <div class="carousel-slide active" data-idx="0"><img src="FleurScreenShot.png"      alt="FleurNotes – Warm Tan"></div>
-            <div class="carousel-slide"        data-idx="1"><img src="FleurNotesGreen.png"      alt="FleurNotes – Sage Green"></div>
-            <div class="carousel-slide"        data-idx="2"><img src="FleurNotesPurple.png"     alt="FleurNotes – Lavender"></div>
-            <div class="carousel-slide"        data-idx="3"><img src="FleurNotesRed.png"        alt="FleurNotes – Rose Red"></div>
-            <div class="carousel-slide"        data-idx="4"><img src="FleurNotesBlue.png"       alt="FleurNotes – Sky Blue"></div>
-            <div class="carousel-slide"        data-idx="5"><img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome"></div>
+            <button class="carousel-arrow prev" id="carouselPrev" aria-label="Previous">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <div id="carouselTrack">
+              <div class="carousel-slide active" data-idx="0"><img src="FleurScreenShot.png"      alt="FleurNotes – Warm Tan"></div>
+              <div class="carousel-slide"        data-idx="1"><img src="FleurNotesGreen.png"      alt="FleurNotes – Sage Green"></div>
+              <div class="carousel-slide"        data-idx="2"><img src="FleurNotesPurple.png"     alt="FleurNotes – Lavender"></div>
+              <div class="carousel-slide"        data-idx="3"><img src="FleurNotesRed.png"        alt="FleurNotes – Rose Red"></div>
+              <div class="carousel-slide"        data-idx="4"><img src="FleurNotesBlue.png"       alt="FleurNotes – Sky Blue"></div>
+              <div class="carousel-slide"        data-idx="5"><img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome"></div>
+            </div>
+
+            <button class="carousel-arrow next" id="carouselNext" aria-label="Next">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
           </div>
 
-          <button class="carousel-arrow next" id="carouselNext" aria-label="Next">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
+          <!-- Dots: outside the scaling frame, always below the image -->
+          <div class="carousel-dots" id="carouselDots"></div>
 
         </div>
-
-        <!-- 3. Dots below the image -->
-        <div class="carousel-dots" id="carouselDots"></div>
 
         <!-- 4. Scroll hint -->
         <div class="scroll-hint" id="scrollHint">
@@ -706,7 +725,6 @@
       if (ctrlOn) cpillRow.classList.add('visible'); else cpillRow.classList.remove('visible');
 
       dotsEl.style.opacity = String(ctrlAlpha);
-      if (ctrlOn) dotsEl.classList.add('visible'); else dotsEl.classList.remove('visible');
 
       prevBtn.style.opacity      = String(ctrlAlpha);
       prevBtn.style.pointerEvents = ctrlOn ? 'auto' : 'none';
