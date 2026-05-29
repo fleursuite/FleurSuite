@@ -42,7 +42,6 @@
     html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
     body{font-family:var(--font-ui);font-size:15px;background:var(--bg-window);color:var(--text-body);line-height:1.6;overflow-x:hidden;transition:background 0.35s var(--smooth),color 0.35s var(--smooth);}
 
-    /* TITLEBAR */
     .titlebar{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;background:var(--bg-toolbar);border-bottom:1px solid var(--border-md);display:flex;align-items:center;padding:0 16px;gap:10px;box-shadow:var(--shadow-xs);transition:background 0.35s,border-color 0.35s;}
     .titlebar-center{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:baseline;gap:1px;user-select:none;}
     .wm-script{font-family:'Segoe Script',var(--font-script);font-size:1.35rem;font-weight:600;color:var(--text-strong);line-height:1;}
@@ -54,7 +53,6 @@
 
     main{padding-top:52px;}
 
-    /* HERO */
     .hero{display:flex;flex-direction:column;align-items:center;padding:64px 24px 72px;gap:48px;}
     .hero-text{text-align:center;max-width:540px;animation:fadeUp 0.7s 0.1s var(--smooth) both;}
     .eyebrow{display:inline-flex;align-items:center;gap:5px;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
@@ -92,12 +90,10 @@
     .cpill-tan{background:#f0ebe6;color:#7a6e65;}.cpill-green{background:#e4f0e3;color:#3a6b37;}.cpill-purple{background:#ede9f5;color:#5d4d8a;}.cpill-red{background:#fae8e7;color:#8a3430;}.cpill-blue{background:#e5eef8;color:#2e5a8a;}.cpill-mono{background:#eeecea;color:#4a4845;}
     [data-theme="dark"] .cpill-tan{background:#2e2926;color:#c8b8ac;}[data-theme="dark"] .cpill-green{background:#1e2e1d;color:#7fb87b;}[data-theme="dark"] .cpill-purple{background:#26213a;color:#b0a0d4;}[data-theme="dark"] .cpill-red{background:#2e1c1b;color:#d48a87;}[data-theme="dark"] .cpill-blue{background:#1a2436;color:#7aaad4;}[data-theme="dark"] .cpill-mono{background:#222120;color:#a09890;}
 
-    /* DIVIDER */
     .divider{display:flex;align-items:center;gap:14px;max-width:960px;margin:0 auto;padding:0 24px;color:var(--text-muted);}
     .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border-md);}
     .divider span{font-size:0.72rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;}
 
-    /* FEATURES */
     .features-band{background:var(--bg-sidebar);border-top:1px solid var(--border-md);border-bottom:1px solid var(--border-md);}
     .features-inner{max-width:960px;margin:0 auto;padding:72px 24px;}
     .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:12px;margin-top:32px;}
@@ -107,7 +103,6 @@
     .feat-title{font-size:0.85rem;font-weight:600;color:var(--text-strong);}
     .feat-desc{font-size:0.77rem;color:var(--text-secondary);line-height:1.6;font-weight:300;}
 
-    /* SECTION SHARED */
     .section{max-width:960px;margin:0 auto;padding:72px 24px;}
     .section-eyebrow{font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
     .section-heading{display:flex;align-items:baseline;gap:4px;font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:8px;}
@@ -115,7 +110,6 @@
     .sh-u{font-family:var(--font-ui);font-weight:400;color:var(--text-secondary);}
     .section-desc{font-size:0.875rem;color:var(--text-secondary);line-height:1.7;max-width:460px;font-weight:300;}
 
-    /* APPS */
     .apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:14px;margin-top:32px;}
     .app-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);padding:22px;display:flex;flex-direction:column;gap:13px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:transform 0.28s var(--spring),box-shadow 0.28s var(--smooth),border-color 0.2s;}
     .app-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:var(--shadow-lg);border-color:var(--accent-mid);}
@@ -138,17 +132,42 @@
 
     /* CHANGELOG */
     .changelog-band{background:var(--bg-window);border-top:1px solid var(--border-md);}
-    .changelog-inner{max-width:960px;margin:0 auto;padding:72px 24px;display:flex;flex-direction:column;gap:36px;}
-    .changelog-header{display:flex;flex-direction:column;gap:8px;}
+    .changelog-inner{max-width:960px;margin:0 auto;padding:72px 24px;display:flex;flex-direction:column;gap:16px;}
+    .changelog-header{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
     .changelog-header p{font-size:0.875rem;color:var(--text-secondary);line-height:1.7;max-width:520px;font-weight:300;}
-    .cl-entry{display:flex;flex-direction:column;gap:18px;}
-    .cl-title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+    /* Collapsible entry card */
+    .cl-entry{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);box-shadow:var(--shadow-sm);overflow:hidden;transition:box-shadow 0.25s var(--smooth);}
+    .cl-entry:hover{box-shadow:var(--shadow-md);}
+
+    .cl-entry-toggle{width:100%;background:none;border:none;cursor:pointer;padding:18px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;text-align:left;font-family:var(--font-ui);transition:background 0.15s;}
+    .cl-entry-toggle:hover{background:var(--bg-hover);}
+    .cl-entry-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:var(--r-lg);}
+
+    .cl-title-row{display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;}
     .cl-ver-badge{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);border:1px solid var(--accent-mid);border-radius:var(--r-pill);padding:5px 14px;}
     .cl-ver-badge .cl-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
     .cl-ver-text{font-size:0.82rem;font-weight:700;color:var(--text-strong);letter-spacing:0.02em;}
     .cl-date{font-size:0.73rem;color:var(--text-muted);font-weight:300;}
+
+    /* App pill */
+    .cl-app-pill{display:inline-flex;align-items:center;gap:5px;background:var(--bg-toolbar);border:1px solid var(--border-md);border-radius:var(--r-pill);padding:3px 11px;font-size:0.69rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.01em;white-space:nowrap;}
+    .cl-app-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+    /* Chevron */
+    .cl-chevron{width:18px;height:18px;flex-shrink:0;color:var(--text-muted);transition:transform 0.32s var(--smooth),color 0.2s;margin-left:auto;}
+    .cl-entry.open .cl-chevron{transform:rotate(180deg);color:var(--accent);}
+
+    /* Collapse animation via grid-template-rows */
+    .cl-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.38s var(--smooth);}
+    .cl-entry.open .cl-body{grid-template-rows:1fr;}
+    .cl-body-inner{overflow:hidden;}
+    .cl-body-content{border-top:1px solid var(--border-md);padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;}
+
+    .cl-body-plain{font-size:0.82rem;color:var(--text-secondary);font-weight:300;line-height:1.7;}
+
     .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px;}
-    .cl-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-sm);transition:transform 0.25s var(--spring),box-shadow 0.25s;}
+    .cl-card{background:var(--bg-toolbar);border:1px solid var(--border-md);border-radius:var(--r-md);padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:transform 0.25s var(--spring),box-shadow 0.25s;}
     .cl-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
     .cl-card-header{display:flex;align-items:center;gap:9px;}
     .cl-card-icon{width:30px;height:30px;border-radius:var(--r-sm);background:var(--accent-soft);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
@@ -173,15 +192,18 @@
     .issues-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
     .issue-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);padding:20px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-sm);transition:transform 0.25s var(--spring),box-shadow 0.25s;}
     .issue-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
-    .issue-card-header{display:flex;align-items:center;gap:10px;}
+    .issue-card-header{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
     .issue-app-icon{width:34px;height:34px;border-radius:var(--r-sm);background:var(--accent-soft);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
     .issue-app-name{font-size:0.85rem;font-weight:600;color:var(--text-strong);}
+    /* FleurNotes pill for issues */
+    .issue-app-pill{display:inline-flex;align-items:center;gap:5px;background:var(--accent-soft);border:1px solid var(--accent-mid);border-radius:var(--r-pill);padding:3px 11px;font-size:0.69rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.01em;white-space:nowrap;}
+    .issue-app-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;}
     .issue-status-pill{margin-left:auto;padding:3px 10px;border-radius:var(--r-pill);font-size:0.63rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;background:#fdf3e7;color:#8a6020;border:1px solid rgba(138,96,32,0.15);}
     [data-theme="dark"] .issue-status-pill{background:#2e2415;color:#c89848;border-color:rgba(200,152,72,0.2);}
     .issue-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
     .issue-list li{display:flex;align-items:flex-start;gap:9px;font-size:0.78rem;color:var(--text-secondary);line-height:1.5;font-weight:300;}
     .issue-bullet{width:5px;height:5px;border-radius:50%;background:var(--accent-mid);flex-shrink:0;margin-top:6px;}
-    .notice-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);overflow:hidden;}
+    .notice-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);}
     .notice-card-header{background:var(--accent-soft);border-bottom:1px solid var(--border-md);padding:14px 22px;display:flex;align-items:center;gap:9px;}
     .notice-card-header span{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-secondary);}
     .notice-body{padding:20px 22px;display:flex;flex-direction:column;gap:12px;}
@@ -194,7 +216,6 @@
     .support-link{display:inline-flex;align-items:center;gap:5px;padding:7px 15px;border-radius:var(--r-pill);background:var(--bg-toolbar);border:1px solid var(--border-md);color:var(--text-secondary);font-size:0.75rem;font-weight:500;text-decoration:none;transition:transform 0.2s var(--spring),background 0.15s,color 0.15s,border-color 0.15s;}
     .support-link:hover{transform:translateY(-2px);background:var(--accent);color:white;border-color:var(--accent);}
 
-    /* FOOTER */
     footer{background:var(--bg-toolbar);border-top:1px solid var(--border-md);}
     .footer-inner{max-width:960px;margin:0 auto;padding:40px 24px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:28px;}
     .fb-wm{display:flex;align-items:baseline;gap:2px;margin-bottom:5px;}
@@ -208,7 +229,6 @@
     .footer-bottom{max-width:960px;margin:0 auto;padding:14px 24px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
     .footer-bottom span{font-size:0.73rem;color:var(--text-muted);font-weight:300;}
 
-    /* ANIMATIONS */
     @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
     .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s var(--smooth),transform 0.6s var(--smooth);}
     .reveal.in{opacity:1;transform:none;}
@@ -248,7 +268,6 @@
 
   <main>
 
-    <!-- HERO -->
     <section class="hero">
       <div class="hero-text">
         <div class="eyebrow">Built for windows</div>
@@ -266,7 +285,6 @@
       </div>
     </section>
 
-    <!-- SHOWCASE -->
     <div class="showcase">
       <div class="accent-pill" id="accentPill">
         <span class="adot" style="background:linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99)"></span>
@@ -299,7 +317,6 @@
       </div>
     </div>
 
-    <!-- FEATURES -->
     <div class="divider"><span>Design Philosophy</span></div>
     <div class="features-band" id="features">
       <div class="features-inner">
@@ -317,7 +334,6 @@
       </div>
     </div>
 
-    <!-- APPS -->
     <div class="divider"><span>Download</span></div>
     <section class="section" id="apps">
       <div class="reveal">
@@ -372,116 +388,134 @@
         <div class="changelog-header reveal">
           <div class="section-eyebrow">Release Notes</div>
           <div class="section-heading"><span class="sh-s">What's </span><span class="sh-u">new</span></div>
-          <p>A full rundown of every change, fix, and improvement in each release.</p>
+          <p>A full rundown of every change, fix, and improvement in each release. Click any version to expand.</p>
         </div>
 
-        <!-- v1.0.0.2 -->
-        <div class="cl-entry reveal">
-          <div class="cl-title-row">
-            <div class="cl-ver-badge"><span class="cl-dot"></span><span class="cl-ver-text">v1.0.0.2</span></div>
-            <span class="cl-date">May 2026 — Latest</span>
-          </div>
-          <div class="cl-grid stagger">
-
-            <div class="cl-card cl-new">
-              <div class="cl-card-header"><div class="cl-card-icon">☑️</div><div class="cl-card-title">Multi-Select Mode</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Press Shift once to enter select mode; press again or press Escape to exit</li>
-                <li><span class="cl-bullet"></span>Hold Shift and click to select multiple notes without leaving the mode</li>
-                <li><span class="cl-bullet"></span>Animated "N Notes Selected" banner appears at the top of the note list</li>
-                <li><span class="cl-bullet"></span>Drag any selected note to move the entire selection at once</li>
-                <li><span class="cl-bullet"></span>Delete key or trash icon deletes all selected notes with one confirmation</li>
-                <li><span class="cl-bullet"></span>Releasing Shift no longer clears the selection</li>
-              </ul>
+        <!-- v1.0.0.2 — open by default as latest -->
+        <div class="cl-entry open reveal" id="cl-v1002">
+          <button class="cl-entry-toggle" aria-expanded="true" aria-controls="cl-v1002-body">
+            <div class="cl-title-row">
+              <div class="cl-ver-badge"><span class="cl-dot"></span><span class="cl-ver-text">v1.0.0.2</span></div>
+              <span class="cl-app-pill"><span class="cl-app-dot"></span>📝 FleurNotes</span>
+              <span class="cl-date">May 2026 — Latest</span>
             </div>
+            <svg class="cl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="cl-body" id="cl-v1002-body">
+            <div class="cl-body-inner">
+              <div class="cl-body-content">
+                <div class="cl-grid">
 
-            <div class="cl-card cl-new">
-              <div class="cl-card-header"><div class="cl-card-icon">🎨</div><div class="cl-card-title">Redesigned Color Pickers</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>All color pickers (text, highlight, theme) now open and close on click — no more hover timeouts</li>
-                <li><span class="cl-bullet"></span>Popups stay open reliably; click anywhere outside to dismiss</li>
-                <li><span class="cl-bullet"></span>Settings accent picker rebuilt as an anchored popup matching the toolbar pickers</li>
-                <li><span class="cl-bullet"></span>Six new themed palettes: Ink &amp; Paper, Forest &amp; Earth, Ocean &amp; Sky, Rose &amp; Dusk, Violet &amp; Plum, Pastels</li>
-                <li><span class="cl-bullet"></span>Removed "Muted &amp; Dusty" and "Vivid" palettes</li>
-              </ul>
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">☑️</div><div class="cl-card-title">Multi-Select Mode</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Press Shift once to enter select mode; press again or press Escape to exit</li>
+                      <li><span class="cl-bullet"></span>Hold Shift and click to select multiple notes without leaving the mode</li>
+                      <li><span class="cl-bullet"></span>Animated "N Notes Selected" banner appears at the top of the note list</li>
+                      <li><span class="cl-bullet"></span>Drag any selected note to move the entire selection at once</li>
+                      <li><span class="cl-bullet"></span>Delete key or trash icon deletes all selected notes with one confirmation</li>
+                      <li><span class="cl-bullet"></span>Releasing Shift no longer clears the selection</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">🎨</div><div class="cl-card-title">Redesigned Color Pickers</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>All color pickers (text, highlight, theme) now open and close on click — no more hover timeouts</li>
+                      <li><span class="cl-bullet"></span>Popups stay open reliably; click anywhere outside to dismiss</li>
+                      <li><span class="cl-bullet"></span>Settings accent picker rebuilt as an anchored popup matching the toolbar pickers</li>
+                      <li><span class="cl-bullet"></span>Six new themed palettes: Ink &amp; Paper, Forest &amp; Earth, Ocean &amp; Sky, Rose &amp; Dusk, Violet &amp; Plum, Pastels</li>
+                      <li><span class="cl-bullet"></span>Removed "Muted &amp; Dusty" and "Vivid" palettes</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">✅</div><div class="cl-card-title">Working Checklists</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Checklist circles now respond to clicks correctly</li>
+                      <li><span class="cl-bullet"></span>Clicking a circle fills it with a checkmark and strikes through the text</li>
+                      <li><span class="cl-bullet"></span>Checked state persists across saves and note switches</li>
+                      <li><span class="cl-bullet"></span>Hover highlight on circles for clear affordance</li>
+                      <li><span class="cl-bullet"></span>Checklist icon in / menu and right-click menu now matches the toolbar icon</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">🪟</div><div class="cl-card-title">Split View from Sidebar</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Right-click any note in the sidebar to open it in split view</li>
+                      <li><span class="cl-bullet"></span>"Open in split view" toggles — right-click again to close that note's split</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">📋</div><div class="cl-card-title">Sidebar Context Menus</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Note and folder right-click menus redesigned to match the editor context menu style</li>
+                      <li><span class="cl-bullet"></span>Wider popup (220px), max height with scrolling, consistent section labels</li>
+                      <li><span class="cl-bullet"></span>Folder and note name headers now trim cleanly with ellipsis</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">⚙️</div><div class="cl-card-title">Settings Panel</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Theme toggle cards now have the same hover and press animation as color theme cards</li>
+                      <li><span class="cl-bullet"></span>Version number displayed in the settings footer, pulled automatically from the build</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">🖼️</div><div class="cl-card-title">Rounded Image Shadows</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Drop shadows now appear correctly on rounded images</li>
+                      <li><span class="cl-bullet"></span>Fixed by switching from geometry clip to opacity mask, so the shadow renders outside the image bounds</li>
+                      <li><span class="cl-bullet"></span>Shadow persists correctly after resizing a rounded image</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">⌨️</div><div class="cl-card-title">Slash Menu Cleanup</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Hidden commands (like "image" and "Attach Document") no longer appear in the right-click menu</li>
+                      <li><span class="cl-bullet"></span>Hidden commands now appear properly in the / list when you type their name</li>
+                      <li><span class="cl-bullet"></span>Removed "linkdocument" duplicate; kept "Attach Document" with proper display name</li>
+                      <li><span class="cl-bullet"></span>All slash command labels normalized to Title Case</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-fix">
+                    <div class="cl-card-header"><div class="cl-card-icon">🔧</div><div class="cl-card-title">Bug Fixes</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Fixed garbled em dashes (â€") in attached document disclaimers and toast messages</li>
+                      <li><span class="cl-bullet"></span>Fixed attachment card showing corrupted "Missing â€" relink or unlink" text</li>
+                      <li><span class="cl-bullet"></span>Fixed highlight and text-color popups randomly disappearing mid-interaction</li>
+                      <li><span class="cl-bullet"></span>Fixed dragging an already-selected note deselecting it before the drag started</li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
             </div>
-
-            <div class="cl-card cl-new">
-              <div class="cl-card-header"><div class="cl-card-icon">✅</div><div class="cl-card-title">Working Checklists</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Checklist circles now respond to clicks correctly</li>
-                <li><span class="cl-bullet"></span>Clicking a circle fills it with a checkmark and strikes through the text</li>
-                <li><span class="cl-bullet"></span>Checked state persists across saves and note switches</li>
-                <li><span class="cl-bullet"></span>Hover highlight on circles for clear affordance</li>
-                <li><span class="cl-bullet"></span>Checklist icon in / menu and right-click menu now matches the toolbar icon</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-new">
-              <div class="cl-card-header"><div class="cl-card-icon">🪟</div><div class="cl-card-title">Split View from Sidebar</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Right-click any note in the sidebar to open it in split view</li>
-                <li><span class="cl-bullet"></span>"Open in split view" toggles — right-click again to close that note's split</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-improve">
-              <div class="cl-card-header"><div class="cl-card-icon">📋</div><div class="cl-card-title">Sidebar Context Menus</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Note and folder right-click menus redesigned to match the editor context menu style</li>
-                <li><span class="cl-bullet"></span>Wider popup (220px), max height with scrolling, consistent section labels</li>
-                <li><span class="cl-bullet"></span>Folder and note name headers now trim cleanly with ellipsis</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-improve">
-              <div class="cl-card-header"><div class="cl-card-icon">⚙️</div><div class="cl-card-title">Settings Panel</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Theme toggle cards now have the same hover and press animation as color theme cards</li>
-                <li><span class="cl-bullet"></span>Version number displayed in the settings footer, pulled automatically from the build</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-improve">
-              <div class="cl-card-header"><div class="cl-card-icon">🖼️</div><div class="cl-card-title">Rounded Image Shadows</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Drop shadows now appear correctly on rounded images</li>
-                <li><span class="cl-bullet"></span>Fixed by switching from geometry clip to opacity mask, so the shadow renders outside the image bounds</li>
-                <li><span class="cl-bullet"></span>Shadow persists correctly after resizing a rounded image</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-improve">
-              <div class="cl-card-header"><div class="cl-card-icon">⌨️</div><div class="cl-card-title">Slash Menu Cleanup</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Hidden commands (like "image" and "Attach Document") no longer appear in the right-click menu</li>
-                <li><span class="cl-bullet"></span>Hidden commands now appear properly in the / list when you type their name</li>
-                <li><span class="cl-bullet"></span>Removed "linkdocument" duplicate; kept "Attach Document" with proper display name</li>
-                <li><span class="cl-bullet"></span>All slash command labels normalized to Title Case</li>
-              </ul>
-            </div>
-
-            <div class="cl-card cl-fix">
-              <div class="cl-card-header"><div class="cl-card-icon">🔧</div><div class="cl-card-title">Bug Fixes</div></div>
-              <ul class="cl-list">
-                <li><span class="cl-bullet"></span>Fixed garbled em dashes (â€") in attached document disclaimers and toast messages</li>
-                <li><span class="cl-bullet"></span>Fixed attachment card showing corrupted "Missing â€" relink or unlink" text</li>
-                <li><span class="cl-bullet"></span>Fixed highlight and text-color popups randomly disappearing mid-interaction</li>
-                <li><span class="cl-bullet"></span>Fixed dragging an already-selected note deselecting it before the drag started</li>
-              </ul>
-            </div>
-
           </div>
         </div>
 
-        <!-- v1.0.0 -->
-        <div class="cl-entry reveal">
-          <div class="cl-title-row">
-            <div class="cl-ver-badge" style="opacity:0.7;"><span class="cl-dot" style="background:var(--text-muted)"></span><span class="cl-ver-text" style="color:var(--text-secondary)">v1.0.0</span></div>
-            <span class="cl-date">Initial release</span>
-          </div>
-          <div style="font-size:0.82rem;color:var(--text-secondary);font-weight:300;line-height:1.7;max-width:500px;">
-            First public release of FleurNotes. Rich-text editing, folders, version history, customizable accent themes, split view, image support, attachment linking, and the / command menu.
+        <!-- v1.0.0 — collapsed by default -->
+        <div class="cl-entry reveal" id="cl-v100">
+          <button class="cl-entry-toggle" aria-expanded="false" aria-controls="cl-v100-body">
+            <div class="cl-title-row">
+              <div class="cl-ver-badge" style="opacity:0.72;"><span class="cl-dot" style="background:var(--text-muted)"></span><span class="cl-ver-text" style="color:var(--text-secondary)">v1.0.0</span></div>
+              <span class="cl-app-pill"><span class="cl-app-dot"></span>📝 FleurNotes</span>
+              <span class="cl-date">Initial release</span>
+            </div>
+            <svg class="cl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="cl-body" id="cl-v100-body">
+            <div class="cl-body-inner">
+              <div class="cl-body-content">
+                <p class="cl-body-plain">First public release of FleurNotes. Rich-text editing, folders, version history, customizable accent themes, split view, image support, attachment linking, and the / command menu.</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -501,6 +535,7 @@
             <div class="issue-card-header">
               <div class="issue-app-icon">📝</div>
               <div class="issue-app-name">FleurNotes</div>
+              <span class="issue-app-pill"><span class="issue-app-dot"></span>📝 FleurNotes</span>
               <span class="issue-status-pill">In Progress</span>
             </div>
             <ul class="issue-list">
@@ -655,6 +690,16 @@
       const dx = e.changedTouches[0].clientX - touchStartX;
       if (Math.abs(dx) > 40) goTo(dx < 0 ? (current + 1) % slides.length : (current - 1 + slides.length) % slides.length);
     }, { passive: true });
+
+    // Collapsible changelog entries
+    document.querySelectorAll('.cl-entry-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const entry = toggle.closest('.cl-entry');
+        const isOpen = entry.classList.contains('open');
+        entry.classList.toggle('open', !isOpen);
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
   </script>
 </body>
 </html>
