@@ -68,153 +68,29 @@
     .btn-accent{background:var(--accent);color:var(--accent-text);border-color:var(--accent);box-shadow:0 4px 16px rgba(181,168,152,0.38);}
     .btn-accent:hover{box-shadow:0 8px 28px rgba(181,168,152,0.5);}
 
-    /* ══════════════════════════════════════════
-       SHOWCASE SECTION
-       Simple, reliable layout — no transforms.
-       Layout (top→bottom, all centered):
-         [accent-pill]       ← always visible, swaps text on scroll
-         [screenshot image]  ← fixed comfortable width, no scaling
-         [color-pill-row]    ← fades up when section scrolls into view
-         [dots]              ← always below image
-    ══════════════════════════════════════════ */
-    .showcase {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 24px 72px;
-      gap: 0;
-    }
-
-    /* The pill above the image */
-    .accent-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 18px;
-      border-radius: var(--r-pill);
-      background: var(--bg-surface);
-      border: 1px solid var(--border-md);
-      box-shadow: var(--shadow-sm);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-      margin-bottom: 20px;
-      transition: opacity 0.3s var(--smooth);
-    }
-    .accent-pill .adot {
-      width: 9px; height: 9px; border-radius: 50%;
-      display: inline-block; flex-shrink: 0;
-    }
-
-    /* Screenshot carousel wrapper — just a normal block, 68% wide */
-    .sc-frame {
-      position: relative;
-      width: min(68%, 860px);
-    }
-
-    /* individual slides */
-    .sc-slide {
-      position: absolute;
-      top: 0; left: 0; width: 100%;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateX(32px);
-      transition: opacity 0.42s var(--smooth), transform 0.42s var(--smooth), visibility 0s 0.42s;
-      pointer-events: none;
-      border-radius: 18px;
-    }
-    .sc-slide.active {
-      position: relative;
-      opacity: 1; visibility: visible;
-      transform: none;
-      pointer-events: auto;
-      transition: opacity 0.42s var(--smooth), transform 0.42s var(--smooth);
-    }
-    .sc-slide.exit-left  { opacity:0; visibility:visible; transform:translateX(-32px); transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth); }
-    .sc-slide.exit-right { opacity:0; visibility:visible; transform:translateX( 32px); transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth); }
-    .sc-slide img { width:100%; border-radius:18px; display:block; }
-
-    /* arrow buttons — sit outside the frame horizontally */
-    .sc-arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: var(--bg-surface);
-      border: 1px solid var(--border-md);
-      box-shadow: var(--shadow-sm);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary);
-      transition: transform 0.2s var(--spring), background 0.15s, color 0.15s, box-shadow 0.15s;
-      z-index: 5;
-    }
-    .sc-arrow:hover { transform: translateY(-50%) scale(1.1); background:var(--accent); color:white; border-color:var(--accent); box-shadow:0 4px 16px rgba(181,168,152,0.4); }
-    .sc-arrow.prev { left: -56px; }
-    .sc-arrow.next { right: -56px; }
-
-    /* dots — always below the image, never inside it */
-    .sc-dots {
-      display: flex;
-      gap: 7px;
-      margin-top: 16px;
-      justify-content: center;
-    }
-    .sc-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent-mid);
-      cursor: pointer;
-      border: none;
-      transition: transform 0.22s var(--spring), background 0.2s;
-    }
-    .sc-dot.active { background: var(--accent); transform: scale(1.35); }
-
-    /* color selector row — fades up into view on scroll */
-    .color-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 28px;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.5s var(--smooth), transform 0.5s var(--smooth);
-    }
-    .color-bar.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    .cpill {
-      padding: 6px 16px;
-      border-radius: var(--r-pill);
-      font-size: 0.73rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      display: flex; align-items: center; gap: 6px;
-      letter-spacing: 0.02em;
-      transition: transform 0.2s var(--spring), box-shadow 0.2s, border-color 0.2s;
-    }
-    .cpill:hover  { transform: translateY(-2px) scale(1.05); }
-    .cpill.active { border-color: currentColor; box-shadow: 0 3px 12px rgba(0,0,0,0.13); transform: scale(1.06); }
-    .cpill .cdot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-
-    .cpill-tan    { background:#f0ebe6; color:#7a6e65; }
-    .cpill-green  { background:#e4f0e3; color:#3a6b37; }
-    .cpill-purple { background:#ede9f5; color:#5d4d8a; }
-    .cpill-red    { background:#fae8e7; color:#8a3430; }
-    .cpill-blue   { background:#e5eef8; color:#2e5a8a; }
-    .cpill-mono   { background:#eeecea; color:#4a4845; }
-    [data-theme="dark"] .cpill-tan    { background:#2e2926; color:#c8b8ac; }
-    [data-theme="dark"] .cpill-green  { background:#1e2e1d; color:#7fb87b; }
-    [data-theme="dark"] .cpill-purple { background:#26213a; color:#b0a0d4; }
-    [data-theme="dark"] .cpill-red    { background:#2e1c1b; color:#d48a87; }
-    [data-theme="dark"] .cpill-blue   { background:#1a2436; color:#7aaad4; }
-    [data-theme="dark"] .cpill-mono   { background:#222120; color:#a09890; }
+    .showcase{display:flex;flex-direction:column;align-items:center;padding:0 24px 72px;gap:0;}
+    .accent-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:var(--r-pill);background:var(--bg-surface);border:1px solid var(--border-md);box-shadow:var(--shadow-sm);font-size:0.78rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.02em;white-space:nowrap;margin-bottom:20px;transition:opacity 0.3s var(--smooth);}
+    .accent-pill .adot{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
+    .sc-frame{position:relative;width:min(68%,860px);}
+    .sc-slide{position:absolute;top:0;left:0;width:100%;opacity:0;visibility:hidden;transform:translateX(32px);transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth),visibility 0s 0.42s;pointer-events:none;border-radius:18px;box-shadow:var(--shadow-window);}
+    .sc-slide.active{position:relative;opacity:1;visibility:visible;transform:none;pointer-events:auto;transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth);}
+    .sc-slide.exit-left{opacity:0;visibility:visible;transform:translateX(-32px);transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth);}
+    .sc-slide.exit-right{opacity:0;visibility:visible;transform:translateX(32px);transition:opacity 0.42s var(--smooth),transform 0.42s var(--smooth);}
+    .sc-slide img{width:100%;border-radius:18px;display:block;}
+    .sc-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:var(--bg-surface);border:1px solid var(--border-md);box-shadow:var(--shadow-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:transform 0.2s var(--spring),background 0.15s,color 0.15s,box-shadow 0.15s;z-index:5;}
+    .sc-arrow:hover{transform:translateY(-50%) scale(1.1);background:var(--accent);color:white;border-color:var(--accent);box-shadow:0 4px 16px rgba(181,168,152,0.4);}
+    .sc-arrow.prev{left:-56px;}.sc-arrow.next{right:-56px;}
+    .sc-dots{display:flex;gap:7px;margin-top:16px;justify-content:center;}
+    .sc-dot{width:7px;height:7px;border-radius:50%;background:var(--accent-mid);cursor:pointer;border:none;transition:transform 0.22s var(--spring),background 0.2s;}
+    .sc-dot.active{background:var(--accent);transform:scale(1.35);}
+    .color-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:28px;opacity:0;transform:translateY(14px);transition:opacity 0.5s var(--smooth),transform 0.5s var(--smooth);}
+    .color-bar.visible{opacity:1;transform:none;}
+    .cpill{padding:6px 16px;border-radius:var(--r-pill);font-size:0.73rem;font-weight:600;cursor:pointer;border:1.5px solid transparent;display:flex;align-items:center;gap:6px;letter-spacing:0.02em;transition:transform 0.2s var(--spring),box-shadow 0.2s,border-color 0.2s;}
+    .cpill:hover{transform:translateY(-2px) scale(1.05);}
+    .cpill.active{border-color:currentColor;box-shadow:0 3px 12px rgba(0,0,0,0.13);transform:scale(1.06);}
+    .cpill .cdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+    .cpill-tan{background:#f0ebe6;color:#7a6e65;}.cpill-green{background:#e4f0e3;color:#3a6b37;}.cpill-purple{background:#ede9f5;color:#5d4d8a;}.cpill-red{background:#fae8e7;color:#8a3430;}.cpill-blue{background:#e5eef8;color:#2e5a8a;}.cpill-mono{background:#eeecea;color:#4a4845;}
+    [data-theme="dark"] .cpill-tan{background:#2e2926;color:#c8b8ac;}[data-theme="dark"] .cpill-green{background:#1e2e1d;color:#7fb87b;}[data-theme="dark"] .cpill-purple{background:#26213a;color:#b0a0d4;}[data-theme="dark"] .cpill-red{background:#2e1c1b;color:#d48a87;}[data-theme="dark"] .cpill-blue{background:#1a2436;color:#7aaad4;}[data-theme="dark"] .cpill-mono{background:#222120;color:#a09890;}
 
     /* DIVIDER */
     .divider{display:flex;align-items:center;gap:14px;max-width:960px;margin:0 auto;padding:0 24px;color:var(--text-muted);}
@@ -259,6 +135,35 @@
     .app-card.soon{opacity:0.62;}
     .app-card.soon .dl-btn{pointer-events:none;}
     .soon-pill{background:var(--bg-input);border:1px solid var(--border-md);border-radius:var(--r-pill);padding:2px 8px;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);}
+
+    /* CHANGELOG */
+    .changelog-band{background:var(--bg-window);border-top:1px solid var(--border-md);}
+    .changelog-inner{max-width:960px;margin:0 auto;padding:72px 24px;display:flex;flex-direction:column;gap:36px;}
+    .changelog-header{display:flex;flex-direction:column;gap:8px;}
+    .changelog-header p{font-size:0.875rem;color:var(--text-secondary);line-height:1.7;max-width:520px;font-weight:300;}
+    .cl-entry{display:flex;flex-direction:column;gap:18px;}
+    .cl-title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+    .cl-ver-badge{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);border:1px solid var(--accent-mid);border-radius:var(--r-pill);padding:5px 14px;}
+    .cl-ver-badge .cl-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+    .cl-ver-text{font-size:0.82rem;font-weight:700;color:var(--text-strong);letter-spacing:0.02em;}
+    .cl-date{font-size:0.73rem;color:var(--text-muted);font-weight:300;}
+    .cl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:12px;}
+    .cl-card{background:var(--bg-surface);border:1px solid var(--border-md);border-radius:var(--r-lg);padding:18px 20px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-sm);transition:transform 0.25s var(--spring),box-shadow 0.25s;}
+    .cl-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+    .cl-card-header{display:flex;align-items:center;gap:9px;}
+    .cl-card-icon{width:30px;height:30px;border-radius:var(--r-sm);background:var(--accent-soft);border:1px solid var(--border-md);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+    .cl-card-title{font-size:0.82rem;font-weight:700;color:var(--text-strong);letter-spacing:0.01em;}
+    .cl-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+    .cl-list li{display:flex;align-items:flex-start;gap:8px;font-size:0.77rem;color:var(--text-secondary);line-height:1.55;font-weight:300;}
+    .cl-bullet{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px;}
+    .cl-fix .cl-card-icon{background:#e8f5e8;border-color:rgba(60,140,60,0.15);}
+    [data-theme="dark"] .cl-fix .cl-card-icon{background:#1a2e1a;border-color:rgba(100,180,100,0.15);}
+    .cl-fix .cl-bullet{background:#4caf50;}
+    .cl-new .cl-card-icon{background:var(--accent-soft);border-color:var(--accent-mid);}
+    .cl-new .cl-bullet{background:var(--accent);}
+    .cl-improve .cl-card-icon{background:#e8eef8;border-color:rgba(60,100,180,0.15);}
+    [data-theme="dark"] .cl-improve .cl-card-icon{background:#1a2236;border-color:rgba(100,140,220,0.15);}
+    .cl-improve .cl-bullet{background:#5b9bd5;}
 
     /* KNOWN ISSUES */
     .issues-band{background:var(--bg-sidebar);border-top:1px solid var(--border-md);border-bottom:1px solid var(--border-md);}
@@ -317,8 +222,7 @@
 
     @media(max-width:768px){
       .sc-frame{width:90%;}
-      .sc-arrow.prev{left:-20px;}
-      .sc-arrow.next{right:-20px;}
+      .sc-arrow.prev{left:-20px;}.sc-arrow.next{right:-20px;}
       .sc-arrow{width:32px;height:32px;}
     }
   </style>
@@ -330,8 +234,9 @@
       <span class="wm-script">Fleur</span><span class="wm-sans">Suite</span>
     </div>
     <div class="titlebar-right">
-      <a href="#apps"     class="icon-btn">Apps</a>
-      <a href="#features" class="icon-btn">About</a>
+      <a href="#apps"      class="icon-btn">Apps</a>
+      <a href="#changelog" class="icon-btn">Changelog</a>
+      <a href="#features"  class="icon-btn">About</a>
       <a href="https://github.com" target="_blank" class="icon-btn">GitHub</a>
       <div class="tb-sep"></div>
       <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
@@ -361,54 +266,38 @@
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════
-         SHOWCASE — pill · screenshot · colors
-    ══════════════════════════════════════ -->
+    <!-- SHOWCASE -->
     <div class="showcase">
-
-      <!-- Pill above image — text swaps via IntersectionObserver -->
       <div class="accent-pill" id="accentPill">
         <span class="adot" style="background:linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99)"></span>
         Your Own Windows Accent Color
       </div>
-
-      <!-- Screenshot frame + arrows -->
       <div class="sc-frame" id="scFrame">
-
         <button class="sc-arrow prev" id="scPrev" aria-label="Previous">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-
         <div id="scTrack">
-          <div class="sc-slide active" data-idx="0"><img src="FleurScreenShot.png"      alt="FleurNotes – Windows Accent"></div>
+          <div class="sc-slide active" data-idx="0"><img src="FleurScreenShot.png"      alt="FleurNotes – Warm Tan"></div>
           <div class="sc-slide"        data-idx="1"><img src="FleurNotesGreen.png"      alt="FleurNotes – Sage Green"></div>
-          <div class="sc-slide"        data-idx="2"><img src="FleurNotesPurple.png"     alt="FleurNotes – Deep Lavender"></div>
+          <div class="sc-slide"        data-idx="2"><img src="FleurNotesPurple.png"     alt="FleurNotes – Lavender"></div>
           <div class="sc-slide"        data-idx="3"><img src="FleurNotesRed.png"        alt="FleurNotes – Rose Red"></div>
           <div class="sc-slide"        data-idx="4"><img src="FleurNotesBlue.png"       alt="FleurNotes – Sky Blue"></div>
           <div class="sc-slide"        data-idx="5"><img src="FleurNotesMonochrome.png" alt="FleurNotes – Monochrome"></div>
         </div>
-
         <button class="sc-arrow next" id="scNext" aria-label="Next">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
-
       </div>
-
-      <!-- Dots — physically below the image, outside sc-frame -->
       <div class="sc-dots" id="scDots"></div>
-
-      <!-- Color selector row — fades up when scrolled into view -->
       <div class="color-bar" id="colorBar">
-        <button class="cpill cpill-tan active"    data-idx="0"><span class="cdot" style="background:#b5a898"></span>Windows Accent</button>
-        <button class="cpill cpill-green"         data-idx="1"><span class="cdot" style="background:#4caf7d"></span>Sage Green</button>
-        <button class="cpill cpill-purple"        data-idx="2"><span class="cdot" style="background:#9575cd"></span>Deep Lavender</button>
-        <button class="cpill cpill-red"           data-idx="3"><span class="cdot" style="background:#e57373"></span>Rose Red</button>
-        <button class="cpill cpill-blue"          data-idx="4"><span class="cdot" style="background:#5b9bd5"></span>Sky Blue</button>
-        <button class="cpill cpill-mono"          data-idx="5"><span class="cdot" style="background:#888"></span>Monochrome</button>
+        <button class="cpill cpill-tan active" data-idx="0"><span class="cdot" style="background:#b5a898"></span>Warm Tan</button>
+        <button class="cpill cpill-green"      data-idx="1"><span class="cdot" style="background:#4caf7d"></span>Sage Green</button>
+        <button class="cpill cpill-purple"     data-idx="2"><span class="cdot" style="background:#9575cd"></span>Lavender</button>
+        <button class="cpill cpill-red"        data-idx="3"><span class="cdot" style="background:#e57373"></span>Rose Red</button>
+        <button class="cpill cpill-blue"       data-idx="4"><span class="cdot" style="background:#5b9bd5"></span>Sky Blue</button>
+        <button class="cpill cpill-mono"       data-idx="5"><span class="cdot" style="background:#888"></span>Monochrome</button>
       </div>
-
     </div>
-    <!-- end showcase -->
 
     <!-- FEATURES -->
     <div class="divider"><span>Design Philosophy</span></div>
@@ -443,8 +332,8 @@
             <div class="app-name"><span class="an-s">Fleur</span><span class="an-u">Notes</span></div>
             <p class="app-desc">Rich-text notes with folders, version history, customizable themes, and a warm paper-like feel. Your thoughts, beautifully kept.</p>
           </div>
-          <div class="app-meta"><span class="chip">🪟 Windows</span><span class="ver">v1.0.0</span></div>
-          <a href="/FleurSuite/downloads/FleurNotesV1.0.0.zip" download class="dl-btn">
+          <div class="app-meta"><span class="chip">🪟 Windows</span><span class="ver">v1.0.0.2</span></div>
+          <a href="/FleurSuite/downloads/FleurNotesV1.0.0.2.zip" download class="dl-btn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download
           </a>
@@ -476,6 +365,129 @@
       </div>
     </section>
 
+    <!-- CHANGELOG -->
+    <div class="divider"><span>Changelog</span></div>
+    <div class="changelog-band" id="changelog">
+      <div class="changelog-inner">
+        <div class="changelog-header reveal">
+          <div class="section-eyebrow">Release Notes</div>
+          <div class="section-heading"><span class="sh-s">What's </span><span class="sh-u">new</span></div>
+          <p>A full rundown of every change, fix, and improvement in each release.</p>
+        </div>
+
+        <!-- v1.0.0.2 -->
+        <div class="cl-entry reveal">
+          <div class="cl-title-row">
+            <div class="cl-ver-badge"><span class="cl-dot"></span><span class="cl-ver-text">v1.0.0.2</span></div>
+            <span class="cl-date">May 2026 — Latest</span>
+          </div>
+          <div class="cl-grid stagger">
+
+            <div class="cl-card cl-new">
+              <div class="cl-card-header"><div class="cl-card-icon">☑️</div><div class="cl-card-title">Multi-Select Mode</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Press Shift once to enter select mode; press again or press Escape to exit</li>
+                <li><span class="cl-bullet"></span>Hold Shift and click to select multiple notes without leaving the mode</li>
+                <li><span class="cl-bullet"></span>Animated "N Notes Selected" banner appears at the top of the note list</li>
+                <li><span class="cl-bullet"></span>Drag any selected note to move the entire selection at once</li>
+                <li><span class="cl-bullet"></span>Delete key or trash icon deletes all selected notes with one confirmation</li>
+                <li><span class="cl-bullet"></span>Releasing Shift no longer clears the selection</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-new">
+              <div class="cl-card-header"><div class="cl-card-icon">🎨</div><div class="cl-card-title">Redesigned Color Pickers</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>All color pickers (text, highlight, theme) now open and close on click — no more hover timeouts</li>
+                <li><span class="cl-bullet"></span>Popups stay open reliably; click anywhere outside to dismiss</li>
+                <li><span class="cl-bullet"></span>Settings accent picker rebuilt as an anchored popup matching the toolbar pickers</li>
+                <li><span class="cl-bullet"></span>Six new themed palettes: Ink &amp; Paper, Forest &amp; Earth, Ocean &amp; Sky, Rose &amp; Dusk, Violet &amp; Plum, Pastels</li>
+                <li><span class="cl-bullet"></span>Removed "Muted &amp; Dusty" and "Vivid" palettes</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-new">
+              <div class="cl-card-header"><div class="cl-card-icon">✅</div><div class="cl-card-title">Working Checklists</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Checklist circles now respond to clicks correctly</li>
+                <li><span class="cl-bullet"></span>Clicking a circle fills it with a checkmark and strikes through the text</li>
+                <li><span class="cl-bullet"></span>Checked state persists across saves and note switches</li>
+                <li><span class="cl-bullet"></span>Hover highlight on circles for clear affordance</li>
+                <li><span class="cl-bullet"></span>Checklist icon in / menu and right-click menu now matches the toolbar icon</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-new">
+              <div class="cl-card-header"><div class="cl-card-icon">🪟</div><div class="cl-card-title">Split View from Sidebar</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Right-click any note in the sidebar to open it in split view</li>
+                <li><span class="cl-bullet"></span>"Open in split view" toggles — right-click again to close that note's split</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-improve">
+              <div class="cl-card-header"><div class="cl-card-icon">📋</div><div class="cl-card-title">Sidebar Context Menus</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Note and folder right-click menus redesigned to match the editor context menu style</li>
+                <li><span class="cl-bullet"></span>Wider popup (220px), max height with scrolling, consistent section labels</li>
+                <li><span class="cl-bullet"></span>Folder and note name headers now trim cleanly with ellipsis</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-improve">
+              <div class="cl-card-header"><div class="cl-card-icon">⚙️</div><div class="cl-card-title">Settings Panel</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Theme toggle cards now have the same hover and press animation as color theme cards</li>
+                <li><span class="cl-bullet"></span>Version number displayed in the settings footer, pulled automatically from the build</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-improve">
+              <div class="cl-card-header"><div class="cl-card-icon">🖼️</div><div class="cl-card-title">Rounded Image Shadows</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Drop shadows now appear correctly on rounded images</li>
+                <li><span class="cl-bullet"></span>Fixed by switching from geometry clip to opacity mask, so the shadow renders outside the image bounds</li>
+                <li><span class="cl-bullet"></span>Shadow persists correctly after resizing a rounded image</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-improve">
+              <div class="cl-card-header"><div class="cl-card-icon">⌨️</div><div class="cl-card-title">Slash Menu Cleanup</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Hidden commands (like "image" and "Attach Document") no longer appear in the right-click menu</li>
+                <li><span class="cl-bullet"></span>Hidden commands now appear properly in the / list when you type their name</li>
+                <li><span class="cl-bullet"></span>Removed "linkdocument" duplicate; kept "Attach Document" with proper display name</li>
+                <li><span class="cl-bullet"></span>All slash command labels normalized to Title Case</li>
+              </ul>
+            </div>
+
+            <div class="cl-card cl-fix">
+              <div class="cl-card-header"><div class="cl-card-icon">🔧</div><div class="cl-card-title">Bug Fixes</div></div>
+              <ul class="cl-list">
+                <li><span class="cl-bullet"></span>Fixed garbled em dashes (â€") in attached document disclaimers and toast messages</li>
+                <li><span class="cl-bullet"></span>Fixed attachment card showing corrupted "Missing â€" relink or unlink" text</li>
+                <li><span class="cl-bullet"></span>Fixed highlight and text-color popups randomly disappearing mid-interaction</li>
+                <li><span class="cl-bullet"></span>Fixed dragging an already-selected note deselecting it before the drag started</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- v1.0.0 -->
+        <div class="cl-entry reveal">
+          <div class="cl-title-row">
+            <div class="cl-ver-badge" style="opacity:0.7;"><span class="cl-dot" style="background:var(--text-muted)"></span><span class="cl-ver-text" style="color:var(--text-secondary)">v1.0.0</span></div>
+            <span class="cl-date">Initial release</span>
+          </div>
+          <div style="font-size:0.82rem;color:var(--text-secondary);font-weight:300;line-height:1.7;max-width:500px;">
+            First public release of FleurNotes. Rich-text editing, folders, version history, customizable accent themes, split view, image support, attachment linking, and the / command menu.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- KNOWN ISSUES -->
     <div class="divider"><span>Known Issues</span></div>
     <div class="issues-band" id="issues">
@@ -495,7 +507,6 @@
               <li><span class="issue-bullet"></span>Ctrl+F search highlight doesn't clear fully after closing</li>
               <li><span class="issue-bullet"></span>Dragging notes between folders can feel finicky</li>
               <li><span class="issue-bullet"></span>Version history occasionally doesn't update as expected</li>
-              <li><span class="issue-bullet"></span>Highlight and text-color popups have awkward interactions</li>
               <li><span class="issue-bullet"></span>More fixes happening behind the scenes too</li>
             </ul>
           </div>
@@ -551,10 +562,7 @@
   </main>
 
   <script>
-    /* ── Helpers ── */
     const html = document.documentElement;
-
-    /* ── Theme ── */
     const applyTheme = t => {
       html.setAttribute('data-theme', t);
       localStorage.setItem('fleur-theme', t);
@@ -565,40 +573,30 @@
     document.getElementById('themeToggle').addEventListener('click', () =>
       applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
 
-    /* ── Scroll reveal (generic) ── */
     const revealObs = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); }),
       { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
     );
     document.querySelectorAll('.reveal, .stagger').forEach(el => revealObs.observe(el));
 
-    /* ── Pill text swap + color bar reveal ──────────────────────────
-       When the showcase scrolls far enough that the color bar enters
-       the viewport, swap the pill text and fade the bar in.
-       Uses IntersectionObserver — zero transform trickery.
-    ─────────────────────────────────────────────────────────────── */
     const accentPill = document.getElementById('accentPill');
     const colorBar   = document.getElementById('colorBar');
     let pillSwapped  = false;
-
     const colorBarObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting && !pillSwapped) {
           pillSwapped = true;
-          // Swap pill text
           accentPill.style.opacity = '0';
           setTimeout(() => {
-            accentPill.innerHTML = '<span style="font-size:1.1em">💐</span>&nbsp; Select any color you want.';
+            accentPill.innerHTML = '<span style="font-size:1.1em">💐</span>&nbsp;Or any color you choose.';
             accentPill.style.opacity = '1';
           }, 300);
-          // Fade color bar up
           colorBar.classList.add('visible');
         }
       });
     }, { threshold: 0.3 });
     colorBarObs.observe(colorBar);
 
-    /* ── Carousel ── */
     const slides  = Array.from(document.querySelectorAll('.sc-slide'));
     const cpills  = Array.from(document.querySelectorAll('.cpill'));
     const dotsEl  = document.getElementById('scDots');
@@ -607,7 +605,6 @@
     let current   = 0;
     let animating = false;
 
-    /* Build dots */
     slides.forEach((_, i) => {
       const d = document.createElement('button');
       d.className = 'sc-dot' + (i === 0 ? ' active' : '');
@@ -622,16 +619,12 @@
       const dir      = idx > current ? 1 : -1;
       const outSlide = slides[current];
       const inSlide  = slides[idx];
-
       outSlide.classList.add(dir > 0 ? 'exit-left' : 'exit-right');
-
-      // position incoming off-screen, then animate in
       inSlide.style.cssText = `position:absolute;top:0;left:0;width:100%;opacity:0;visibility:visible;transform:translateX(${dir * 32}px);transition:none;`;
-      inSlide.getBoundingClientRect(); // force reflow
+      inSlide.getBoundingClientRect();
       inSlide.style.transition = 'opacity 0.42s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94)';
       inSlide.style.opacity    = '1';
       inSlide.style.transform  = 'translateX(0)';
-
       setTimeout(() => {
         outSlide.classList.remove('active','exit-left','exit-right');
         outSlide.style.cssText = '';
@@ -639,7 +632,6 @@
         inSlide.style.cssText  = '';
         animating = false;
       }, 430);
-
       cpills[current].classList.remove('active');
       cpills[idx].classList.add('active');
       dotsEl.querySelectorAll('.sc-dot').forEach((d,i) => d.classList.toggle('active', i === idx));
@@ -650,7 +642,6 @@
     nextBtn.addEventListener('click', () => goTo((current + 1) % slides.length));
     cpills.forEach(p => p.addEventListener('click', () => goTo(+p.dataset.idx)));
 
-    /* Auto-advance */
     let autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
     const track = document.getElementById('scTrack');
     track.addEventListener('mouseenter', () => clearInterval(autoTimer));
@@ -658,7 +649,6 @@
       autoTimer = setInterval(() => goTo((current + 1) % slides.length), 5000);
     });
 
-    /* Touch swipe */
     let touchStartX = 0;
     track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
     track.addEventListener('touchend',   e => {
