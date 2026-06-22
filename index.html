@@ -56,6 +56,14 @@
     .hero{display:flex;flex-direction:column;align-items:center;padding:64px 24px 72px;gap:48px;}
     .hero-text{text-align:center;max-width:540px;animation:fadeUp 0.7s 0.1s var(--smooth) both;}
     .eyebrow{display:inline-flex;align-items:center;gap:5px;font-size:0.7rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
+
+    /* Update banner — replaces the old "Built for windows" eyebrow */
+    .update-banner{display:inline-flex;align-items:center;gap:8px;padding:7px 18px 7px 14px;border-radius:var(--r-pill);background:var(--accent-soft);border:1px solid var(--accent-mid);box-shadow:var(--shadow-sm);font-size:0.74rem;font-weight:600;color:var(--text-strong);letter-spacing:0.01em;text-decoration:none;margin-bottom:14px;cursor:pointer;transition:transform 0.25s var(--spring),box-shadow 0.25s var(--smooth),background 0.2s;}
+    .update-banner:hover{transform:translateY(-2px) scale(1.02);box-shadow:var(--shadow-md);background:var(--accent-mid);}
+    .update-banner .ub-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 0 3px rgba(181,168,152,0.25);}
+    .update-banner .ub-arrow{width:13px;height:13px;flex-shrink:0;color:var(--text-secondary);transition:transform 0.25s var(--spring);}
+    .update-banner:hover .ub-arrow{transform:translateX(3px);}
+
     .hero-heading{display:flex;align-items:baseline;justify-content:center;gap:4px;margin-bottom:14px;}
     .hero-heading .hs{font-family:var(--font-script);font-size:clamp(2.8rem,7vw,4rem);font-weight:700;color:var(--text-strong);line-height:1;}
     .hero-heading .hu{font-family:var(--font-ui);font-size:clamp(2rem,5vw,3rem);font-weight:400;color:var(--text-secondary);line-height:1;}
@@ -270,7 +278,11 @@
 
     <section class="hero">
       <div class="hero-text">
-        <div class="eyebrow">Built for windows</div>
+        <a href="#changelog" class="update-banner">
+          <span class="ub-dot"></span>
+          Check out v1.0.0.3 changes and stability improvements
+          <svg class="ub-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
         <div class="hero-heading">
           <span class="hs">Fleur</span><span class="hu">Suite</span>
           <img src="FleurSuite Flower Logo 400x400.png" height="100px" style="align-self:center;padding-bottom:20px;">
@@ -286,10 +298,6 @@
     </section>
 
     <div class="showcase">
-      <div class="accent-pill" id="accentPill">
-        <span class="adot" style="background:linear-gradient(135deg,#7ec8e3,#b57bee,#f4a261,#57cc99)"></span>
-        Your Own Windows Accent Color
-      </div>
       <div class="sc-frame" id="scFrame">
         <button class="sc-arrow prev" id="scPrev" aria-label="Previous">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -307,7 +315,7 @@
         </button>
       </div>
       <div class="sc-dots" id="scDots"></div>
-      <div class="color-bar" id="colorBar">
+      <div class="color-bar visible" id="colorBar">
         <button class="cpill cpill-tan active" data-idx="0"><span class="cdot" style="background:#b5a898"></span>Warm Tan</button>
         <button class="cpill cpill-green"      data-idx="1"><span class="cdot" style="background:#4caf7d"></span>Sage Green</button>
         <button class="cpill cpill-purple"     data-idx="2"><span class="cdot" style="background:#9575cd"></span>Lavender</button>
@@ -348,8 +356,8 @@
             <div class="app-name"><span class="an-s">Fleur</span><span class="an-u">Notes</span></div>
             <p class="app-desc">Rich-text notes with folders, version history, customizable themes, and a warm paper-like feel. Your thoughts, beautifully kept.</p>
           </div>
-          <div class="app-meta"><span class="chip">🪟 Windows</span><span class="ver">v1.0.0.2</span></div>
-          <a href="/FleurSuite/Downloads/FleurNotesV1.0.0.2.zip" download class="dl-btn">
+          <div class="app-meta"><span class="chip">🪟 Windows</span><span class="ver">v1.0.0.3</span></div>
+          <a href="/FleurSuite/Downloads/FleurNotesV1.0.0.3.zip" download class="dl-btn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download
           </a>
@@ -391,13 +399,100 @@
           <p>A full rundown of every change, fix, and improvement in each release. Click any version to expand.</p>
         </div>
 
-        <!-- v1.0.0.2 — open by default as latest -->
-        <div class="cl-entry open reveal" id="cl-v1002">
-          <button class="cl-entry-toggle" aria-expanded="true" aria-controls="cl-v1002-body">
+        <!-- v1.0.0.3 — open by default as latest -->
+        <div class="cl-entry open reveal" id="cl-v1003">
+          <button class="cl-entry-toggle" aria-expanded="true" aria-controls="cl-v1003-body">
             <div class="cl-title-row">
-              <div class="cl-ver-badge"><span class="cl-dot"></span><span class="cl-ver-text">v1.0.0.2</span></div>
+              <div class="cl-ver-badge"><span class="cl-dot"></span><span class="cl-ver-text">v1.0.0.3</span></div>
               <span class="cl-app-pill"><span class="cl-app-dot"></span>📝 FleurNotes</span>
-              <span class="cl-date">May 2026 — Latest</span>
+              <span class="cl-date">June 2026 — Latest</span>
+            </div>
+            <svg class="cl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="cl-body" id="cl-v1003-body">
+            <div class="cl-body-inner">
+              <div class="cl-body-content">
+                <div class="cl-grid">
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">📌</div><div class="cl-card-title">Pin Notes</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Pin any note from the right-click menu to keep it at the top of its folder</li>
+                      <li><span class="cl-bullet"></span>Pinned notes show a thumbtack badge in the corner of the note card</li>
+                      <li><span class="cl-bullet"></span>Badge switches to white automatically when its note is the active selection</li>
+                      <li><span class="cl-bullet"></span>Pinned notes stay pinned through every sort order</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">🧾</div><div class="cl-card-title">Note Templates</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Save any note as a reusable template from the right-click menu</li>
+                      <li><span class="cl-bullet"></span>"New from template" submenu lists every saved template for one-click creation</li>
+                      <li><span class="cl-bullet"></span>Delete a template directly from the submenu with the new trash button</li>
+                      <li><span class="cl-bullet"></span>Templates stay out of search results and the main note list</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">📑</div><div class="cl-card-title">Note Duplication</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Duplicate any note from the right-click menu</li>
+                      <li><span class="cl-bullet"></span>Copies are titled "Copy of [original name]" and placed directly beneath the original</li>
+                      <li><span class="cl-bullet"></span>Folder, formatting, and flower badge carry over to the new copy</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-new">
+                    <div class="cl-card-header"><div class="cl-card-icon">↕️</div><div class="cl-card-title">Sort Notes</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>New sort button next to the search bar opens a popup with four sort modes</li>
+                      <li><span class="cl-bullet"></span>Newest first, oldest first, A → Z, and Z → A, with a checkmark on the active mode</li>
+                      <li><span class="cl-bullet"></span>Sort button icon updates to reflect the active sort at a glance</li>
+                      <li><span class="cl-bullet"></span>Pinned notes stay pinned at the top regardless of sort order</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">📊</div><div class="cl-card-title">Smarter Status Bar</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Word count is now joined by character count and an estimated reading time</li>
+                      <li><span class="cl-bullet"></span>Selecting text swaps the status bar to show stats for just the selection</li>
+                      <li><span class="cl-bullet"></span>Status bar reverts to document totals automatically when the selection clears</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-improve">
+                    <div class="cl-card-header"><div class="cl-card-icon">🪟</div><div class="cl-card-title">Sidebar Icon Redesign</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Sidebar collapse icon redesigned to a cleaner two-panel glyph that matches the rest of the toolbar</li>
+                      <li><span class="cl-bullet"></span>Split view icon corners now rounded to match the app's overall style</li>
+                      <li><span class="cl-bullet"></span>"Save as template" icon redesigned to a filled document glyph</li>
+                    </ul>
+                  </div>
+
+                  <div class="cl-card cl-fix">
+                    <div class="cl-card-header"><div class="cl-card-icon">🔧</div><div class="cl-card-title">Bug Fixes</div></div>
+                    <ul class="cl-list">
+                      <li><span class="cl-bullet"></span>Fixed pin badge rendering with excess invisible padding, making it appear far smaller than intended</li>
+                      <li><span class="cl-bullet"></span>Fixed pin badge anchoring to the wrong parent element, causing it to float outside the note card's corner</li>
+                      <li><span class="cl-bullet"></span>Fixed thumbtack icon geometry so it renders as a recognizable pin shape at small sizes</li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- v1.0.0.2 — collapsed by default -->
+        <div class="cl-entry reveal" id="cl-v1002">
+          <button class="cl-entry-toggle" aria-expanded="false" aria-controls="cl-v1002-body">
+            <div class="cl-title-row">
+              <div class="cl-ver-badge" style="opacity:0.72;"><span class="cl-dot" style="background:var(--text-muted)"></span><span class="cl-ver-text" style="color:var(--text-secondary)">v1.0.0.2</span></div>
+              <span class="cl-app-pill"><span class="cl-app-dot"></span>📝 FleurNotes</span>
+              <span class="cl-date">May 2026</span>
             </div>
             <svg class="cl-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
@@ -613,24 +708,6 @@
       { threshold: 0.1, rootMargin: '0px 0px -24px 0px' }
     );
     document.querySelectorAll('.reveal, .stagger').forEach(el => revealObs.observe(el));
-
-    const accentPill = document.getElementById('accentPill');
-    const colorBar   = document.getElementById('colorBar');
-    let pillSwapped  = false;
-    const colorBarObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting && !pillSwapped) {
-          pillSwapped = true;
-          accentPill.style.opacity = '0';
-          setTimeout(() => {
-            accentPill.innerHTML = '<span style="font-size:1.1em">💐</span>&nbsp;Any color you choose.';
-            accentPill.style.opacity = '1';
-          }, 300);
-          colorBar.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.3 });
-    colorBarObs.observe(colorBar);
 
     const slides  = Array.from(document.querySelectorAll('.sc-slide'));
     const cpills  = Array.from(document.querySelectorAll('.cpill'));
